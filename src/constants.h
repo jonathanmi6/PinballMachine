@@ -15,15 +15,16 @@ const int POP_BUMP_A_SOLND_PIN = 5; //PWM
 const int POP_BUMP_A_SENSE_PIN = 25; //DIN? or ANALOG IN
 
 //Pong Slider Pins
-const int SLIDE_L_BTN_PIN; //DIN
-const int SLIDE_R_BTN_PIN; //DIN
-const int FLIP_L_BTN_PIN; //DIN
-const int FLIP_R_BTN_PIN; //DIN
-const int SLIDE_MOTOR_FWD_PIN; //PWM
-const int SLIDE_MOTOR_REV_PIN; //PWM
-const int FLIP_L_SOLND_PIN; //PWM
-const int FLIP_R_SOLND_PIN; //PWM
-const int SLIDE_R_LS_PIN; //DIN
-const int SLIDE_L_LS_PIN; //DIN
+const int SLIDE_L_BTN_PIN = 0; //DIN
+const int SLIDE_R_BTN_PIN = 0; //DIN
+const int FLIP_L_BTN_PIN = 0; //DIN
+const int FLIP_R_BTN_PIN = 0; //DIN
+const int SLIDE_MOTOR_FWD_PIN = 0; //PWM
+const int SLIDE_MOTOR_REV_PIN = 0; //PWM
+const int FLIP_L_SOLND_PIN = 0; //PWM
+const int FLIP_R_SOLND_PIN = 0; //PWM
+const int SLIDE_R_LS_PIN = 0; //DIN
+const int SLIDE_L_LS_PIN = 0; //DIN
 
+const int SEX = 69;
 }

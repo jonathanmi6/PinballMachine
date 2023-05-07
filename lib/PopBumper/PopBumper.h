@@ -6,7 +6,7 @@ namespace Pinball::PopBump
 {    
 namespace Constants
 {
-    const unsigned long DELAY_TIME = 50;
+    const unsigned long DELAY_TIME = 1; //min is 1ms
     const unsigned long POP_TIME = 100;
     const unsigned long HOLD_TIME = 200;
     const int POP_PERCENT = 255;

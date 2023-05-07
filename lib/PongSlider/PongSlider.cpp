@@ -12,8 +12,10 @@ PongSlider::PongSlider(Difficulty difficulty)
     sliderSpeedPercent = 255;
         break;
     case MEDIUM:
+    sliderSpeedPercent = 180;
         break;
     case HARD:
+    sliderSpeedPercent = 100;
         break;
     default:
         break;
@@ -60,9 +62,23 @@ void PongSlider::update(unsigned long currTime)
         analogWrite(Pinball::Constants::FLIP_R_SOLND_PIN, Constants::OFF_PERCENT);
     }
 
-    if (getFlipButton(LEFT))
+    if(getFlipButton(LEFT) && leftFlipFlag == false) //initial press
     {
-        //same as right
+        Serial.println("L Flipper Pressed");
+        leftFlipFlag = true;
+        timeLeftFlip = currTime; //start counting time
+        analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::FLIP_PERCENT); //set output to 100%
+    }
+    else if(leftFlipFlag == true && currTime > timeLeftFlip + Constants::FLIP_TIME) //switch to hold mode
+    {
+        Serial.println("L flipper switching to hold current");
+        analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::HOLD_PERCENT);
+    }
+    else if(!getFlipButton(LEFT) && leftFlipFlag == true) //when button released, turn solenoid off
+    {
+        Serial.println("L flipper released");
+        leftFlipFlag == false;
+        analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::OFF_PERCENT);
     }
 
     //update slider
@@ -126,7 +142,7 @@ PongSlider::Side PongSlider::getSlideDirection()
         }
         return LEFT;
     }
-    else //any holding left and right buttons
+    else //holding left and right buttons, or no buttons
     {
         return HOLD;
     }
