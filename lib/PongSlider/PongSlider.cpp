@@ -87,22 +87,38 @@ void PongSlider::update(unsigned long currTime)
 
 void PongSlider::slide(Side side) //hbridge controller
 {
+    //concern with Hbridge driver:
+    //VIN = 12V likely (could run motor off 6V potentially? need to check speed)
+    //High side PFET likely turns on around VSG > 2V
+    //Vg for PFET can only go up to 5V, VSG = 7V which PFET set to OFF (and it will actually be ON since VG can't go high enough)
+    //Typical solution is to use a gate driver IC (which can crank the gate voltage) but not availble in lab?
+    //other solution is to CREATE a gate driver circuit (eg: use a low side NFET to turn on and off a high side PFET)
+
     switch(side)
     {
     case RIGHT:
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, sliderSpeedPercent); //fwd conducting fets on
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, sliderHoldPercent); //rev conducting fets off
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_LOW_PIN, sliderSpeedPercent); //fwd conducting fets on
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_HIGH_PIN, LOW); //turn HIGH side PFET ON
+
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_LOW_PIN, sliderHoldPercent); //rev conducting fets off
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_HIGH_PIN, HIGH); //turn HIGH side PFET OFF
         break;
     case LEFT:
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, sliderHoldPercent); //fwd conducting fets off
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, sliderSpeedPercent); //rev conducting fets on
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_LOW_PIN, sliderHoldPercent); //fwd conducting fets off
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_HIGH_PIN, HIGH); //turn HIGH side PFET OFF
+
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_LOW_PIN, sliderSpeedPercent); //rev conducting fets on
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_HIGH_PIN, LOW); //turn HIGH side PFET ON
         break;
     case HOLD:
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, sliderHoldPercent); //don't do anything if both left and right buttons pressed
-        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, sliderHoldPercent);
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_FWD_LOW_PIN, sliderHoldPercent); //don't do anything if both left and right buttons pressed
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_HIGH_PIN, HIGH); //turn HIGH side PFET OFF
+
+        analogWrite(Pinball::Constants::SLIDE_MOTOR_REV_LOW_PIN, sliderHoldPercent);
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_HIGH_PIN, HIGH); //turn HIGH side PFET OFF
         break;
     default:
-        Serial.print("code broketh");
+        Serial.print("code broketh, how did you even get to here");
         break;
     }
 }
