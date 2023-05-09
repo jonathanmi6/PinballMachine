@@ -47,7 +47,7 @@ const int SLING_SHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
 
 //Scoreboard pins
 const int SB_SER = 0; //DIO
-const int SB_CLK = 0; //DIO
+const int SB_RCLK = 0; //DIO
 const int SB_SRCLK = 0; //DIO
 //PNP - LOW = EN, HIGH = OFF
 const int SB_ONES_EN = 0; //DIO 
