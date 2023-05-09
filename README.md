@@ -7,9 +7,14 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 * Flippers
 * Slider
 
-### Score Keeper
+### Launcher
+* Launcher Solenoid
+
+### Score Keeper / Game Warden
 * Score keeper
 * Scoreboard
+* Reset Sensors
+
 
 
 
@@ -25,6 +30,8 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 ### Horizontal Spinner
 
 ### Vertical Spinner
+
+### Channels
 
 
 
