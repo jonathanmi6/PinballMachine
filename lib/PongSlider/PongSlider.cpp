@@ -31,6 +31,13 @@ void PongSlider::init()
     pinMode(Pinball::Constants::SLIDE_R_LS_PIN, INPUT_PULLUP);
     pinMode(Pinball::Constants::SLIDE_L_LS_PIN, INPUT_PULLUP);
 
+    pinMode(Pinball::Constants::SLIDE_MOTOR_FWD_HIGH_PIN, OUTPUT);
+    pinMode(Pinball::Constants::SLIDE_MOTOR_FWD_LOW_PIN, OUTPUT);
+    pinMode(Pinball::Constants::SLIDE_MOTOR_REV_HIGH_PIN, OUTPUT);
+    pinMode(Pinball::Constants::SLIDE_MOTOR_REV_LOW_PIN, OUTPUT);
+    pinMode(Pinball::Constants::FLIP_L_SOLND_PIN, OUTPUT);
+    pinMode(Pinball::Constants::FLIP_R_SOLND_PIN, OUTPUT);
+
     leftFlipFlag = false;
     rightFlipFlag = false;
 }

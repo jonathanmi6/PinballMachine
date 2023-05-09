@@ -15,6 +15,7 @@ PopBumper::PopBumper(int solenoidPin, int sensePin)
 void PopBumper::init()
 {
     pinMode(sensePin, INPUT_PULLUP);
+    pinMode(solenoidPin, OUTPUT);
 }
 
 void PopBumper::update(unsigned long currTime)
