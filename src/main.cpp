@@ -5,9 +5,13 @@
 #include "PopBumper.h"
 #include "constants.h"
 #include "PongSlider.h"
+#include "Launcher.h"
+#include "DigitalDebounce.h"
 
 //create objects
 Pinball::PongSlide::PongSlider pongSlider(Pinball::EASY);
+Pinball::Launch::Launcher launcher(1);
+Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 
 Pinball::DropTGT::DropTarget dropTargetA(Pinball::Constants::DROP_TGT_A_SERVO_PIN, Pinball::Constants::DROP_TGT_A_SWITCH_PIN);
 Pinball::DropTGT::DropTarget dropTargetB(Pinball::Constants::DROP_TGT_B_SERVO_PIN, Pinball::Constants::DROP_TGT_B_SWITCH_PIN);
@@ -26,51 +30,91 @@ int roundNum;
 
 void updateScores()
 {
-  totalScore = (dropTargetA.getScore() + dropTargetB.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
+  totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
               + (popBumperA.getScore() + popBumperB.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
 }
 
-void setup()  //for testing drop target
+void setup()
 {
   Serial.begin(9600);
   totalScore = 0;
+  roundNum = 1;
   roundRunning = false;
 
   //initialize objects
+  launcher.init();
+  rstSensor.init();
+
   dropTargetA.init();
   // dropTargetB.init();
+  // dropTargetC.init();
   popBumperA.init();
   popBumperB.init();
   pongSlider.init();
+
+
+  //flash some shit
   
+
+  // roundRunning = true; //manual override to skip waiting for launch
 }
 
 void loop()
 {
+  if(roundNum > Pinball::Constants::MAX_ROUNDS)
+  {
+    //reset the game
+    Serial.println("Game Over");
+    totalScore = 0;
+    scoreKeeper.resetScore(); //why reset in two places??? badge code
+    roundNum = 0;
+    while(!launcher.getLaunchButton())
+    {
+      //wait for launch to be pressed
+      //put idle animation
+    }
+  }
 
+  Serial.println("Waiting for launch");
+  delay(1000); //delay to prevent accidental launching
 
+  launcher.resetLaunched();
+  while (!roundRunning) //waiting for round to start
+  {
+    currTime = millis();
+    launcher.update(currTime);
+    roundRunning = launcher.getLaunched(); //once launched, start round
 
+    //display some shit while idling
+  }
 
-
-
-  // while (roundRunning)
-  // {
-  //   /* code */
-  // }
-  currTime = millis(); //update time
-
+  //put one time round start code below
   
+  while (roundRunning) //round started
+  {
+    currTime = millis(); //update time
 
-  //update mechanisms
-  dropTargetA.update(currTime);
-  // dropTargetB.update(currTime);
-  popBumperA.update(currTime);
-  popBumperB.update(currTime);
-  // pongSlider.update(currTime);
+    //update mechanisms
+    dropTargetA.update(currTime);
+    // dropTargetB.update(currTime);
+    // dropTargetC.update(currTime);
+    popBumperA.update(currTime);
+    popBumperB.update(currTime);
+    // pongSlider.update(currTime);
 
-  updateScores();
-  scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
-  Serial.println(scoreKeeper.getTotalScore());
+    updateScores();
+    scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
+    // scoreKeeper.updateScoreBoard();
+    // Serial.println(scoreKeeper.getTotalScore());
+
+    if(rstSensor.update(currTime)) //if rst sensor triged
+    {
+      //round end code
+      Serial.println("Round " + String(roundNum) + " over");
+      roundNum++;
+      roundRunning = false;
+    }
+  }
 }
 
 

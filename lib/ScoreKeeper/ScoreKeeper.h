@@ -29,14 +29,7 @@ class ScoreKeeper
         Difficulty difficulty;
         unsigned long flagTime;
         int totalScore;
-        int elements;
-        int onesDisplay;
-        int tensDisplay;
-        int hunsDisplay;
-        int thdsDisplay;
-        int count;
         bool maxedScore;
-        bool scribing;
 
     public:
         ScoreKeeper(Difficulty difficulty);
@@ -48,5 +41,7 @@ class ScoreKeeper
         void setScoreBoard(int value);
         void resetScore();
         int getTotalScore();
+
+        bool getResetSensor();
 };
 }}

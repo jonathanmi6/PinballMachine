@@ -2,7 +2,7 @@
 #include "ScoreKeeper.h"
 #include "constants.h"
 
-TM1637 scoreDisplay(Pinball::Constants::SB_CLK, Pinball::Constants::SB_DIO);
+TM1637 scoreDisplay(Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_DIO_PIN);
 
 namespace Pinball::ScoreKeep {
 ScoreKeeper::ScoreKeeper(Difficulty difficulty)
@@ -58,5 +58,11 @@ void ScoreKeeper::resetScore()
 int ScoreKeeper::getTotalScore()
 {
     return totalScore;
+}
+
+bool ScoreKeeper::getResetSensor()
+{
+    //debounce?
+    return digitalRead(Pinball::Constants::GAME_RST_PIN);
 }
 }

@@ -26,15 +26,14 @@ void DigitalDebounce::init()
 
 bool DigitalDebounce::update(unsigned long currTime)
 {
-    if(getSensorRaw() && triggedFlag == false) //sensor goes high, set flag to monitor
+    if(getInputRaw() && triggedFlag == false) //sensor goes high, set flag to monitor
     {
         triggedFlag = true;
         trigTime = currTime;
     }
-    else if(getSensorRaw() && triggedFlag == true && currTime > trigTime + dbTime) 
+    else if(getInputRaw() && triggedFlag == true && currTime > trigTime + dbTime) 
     {
         //sensor must read high for debounce time before confirmed
-        addScore();
         triggedFlag = false; //reset flag
         return true;
     }
@@ -42,7 +41,7 @@ bool DigitalDebounce::update(unsigned long currTime)
     return false;
 }
 
-bool DigitalDebounce::getSensorRaw()
+bool DigitalDebounce::getInputRaw()
 {
     if(pullUp)
     {

@@ -8,7 +8,9 @@
 namespace Pinball::Constants
 {
 //Game settings
-const int maxRounds = 3;
+const int MAX_ROUNDS = 3;
+const int GAME_RST_PIN = 36;
+const int GAME_RST_PIN_DBTIME = 50;
 
 //Drop target pins
 const int DROP_TGT_A_SERVO_PIN = 2; //PWM
@@ -47,8 +49,14 @@ const int SLING_SHOT_R_SOLND_PIN = 11; //PWM
 const int SLING_SHOT_L_SENSE_PIN = 0; //DIN? or ANALOG IN
 const int SLING_SHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
 
-//Scoreboard pins
-const int SB_CLK = 0;
-const int SB_DIO = 0;
+//Scorekeeper pins
+const int SB_CLK_PIN = 0;
+const int SB_DIO_PIN = 0;
+
+
+//Launcher Pins
+const int LAUNCH_SOLND_PIN = 12;
+const int LAUNCH_POT_PIN = 0;
+const int LAUNCH_BTN_PIN = 37;
 
 }

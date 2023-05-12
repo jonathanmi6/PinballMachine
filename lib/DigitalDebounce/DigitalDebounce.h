@@ -12,7 +12,7 @@ namespace Constants
 
 }
 
-class DigitalDebounce: ScoringElement
+class DigitalDebounce
 {
     private:
         int sensePin;
@@ -21,12 +21,12 @@ class DigitalDebounce: ScoringElement
         bool pullUp;
         unsigned long trigTime;
 
-        bool getSensorRaw();
 
     public:
         DigitalDebounce(int sensePin, int dbTime, bool pullUp);
         void init();
         bool update(unsigned long currTime);
+        bool getInputRaw();
 };
     
 }

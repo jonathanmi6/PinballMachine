@@ -2,30 +2,61 @@
 #include "Launcher.h"
 #include "constants.h"
 
-Pinball::Launcher::Launcher::Launcher()
+namespace Pinball::Launch
 {
-    
+
+Launcher::Launcher(int fak)
+{
+    launchFlag = false;
+    resetCount = 0;
 }
 
-void Pinball::Launcher::Launcher::init()
+void Launcher::init()
 {
-
+    pinMode(Pinball::Constants::LAUNCH_SOLND_PIN, OUTPUT);
+    pinMode(Pinball::Constants::LAUNCH_BTN_PIN, INPUT_PULLUP);
 }
 
-void Pinball::Launcher::Launcher::update(unsigned long currTime)
+void Launcher::update(unsigned long currTime)
 {
-    //launching conditions
-    //launch settings
-    //count # of resets
-    //determination of start/stop will be handled by scorekeeper?
+    if(getLaunchButton() && launchFlag == false)
+    {
+        launchFlag = true;
+        trigTime = currTime;
+        analogWrite(Pinball::Constants::LAUNCH_SOLND_PIN, getLaunchStrength());
+        Serial.println("Launching at " + String(getLaunchStrength()));
+    }
+    else if(launchFlag == true && currTime > trigTime + Constants::LAUNCH_TIME)
+    {
+        Serial.println("done launching");
+        analogWrite(Pinball::Constants::LAUNCH_SOLND_PIN, Constants::OFF_PERCENT);
+        launchFlag = false;
+        launched = true;
+    }
 }
 
-bool Pinball::Launcher::Launcher::getResetSense()
+int Launcher::getPotValue()
 {
-    return false; //analog sense? or schmitdd trigger
+    return analogRead(Pinball::Constants::LAUNCH_POT_PIN);
 }
 
-int Pinball::Launcher::Launcher::getResetCount()
+void Launcher::resetLaunched()
 {
-    return 0;
+    launched = false;
+}
+
+bool Launcher::getLaunched()
+{
+    return launched;
+}
+
+bool Launcher::getLaunchButton()
+{
+    return !digitalRead(Pinball::Constants::LAUNCH_BTN_PIN);
+}
+
+int Launcher::getLaunchStrength() // map analog input to reasonable pwm output
+{
+    return map(getPotValue(), 0, 1023, Constants::LAUNCH_PERCENT_MIN, Constants::LAUNCH_PERCENT_MAX);
+}
 }
