@@ -37,7 +37,6 @@ class PongSlider
         void update(unsigned long currTime);
         void init();
         
-        void flip(Side side);
         void slide(Side side);
         bool getFlipButton(Side side);
         Side getSlideDirection();

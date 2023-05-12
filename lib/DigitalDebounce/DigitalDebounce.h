@@ -21,12 +21,12 @@ class DigitalDebounce
         bool pullUp;
         unsigned long trigTime;
 
+        bool getInputRaw();
 
     public:
         DigitalDebounce(int sensePin, int dbTime, bool pullUp);
         void init();
         bool update(unsigned long currTime);
-        bool getInputRaw();
 };
     
 }

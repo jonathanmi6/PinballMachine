@@ -26,6 +26,7 @@ Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
 int totalScore;
 unsigned long currTime;
 bool roundRunning;
+bool checkRoundEnd;
 int roundNum;
 
 void updateScores()
@@ -40,6 +41,7 @@ void setup()
   totalScore = 0;
   roundNum = 1;
   roundRunning = false;
+  checkRoundEnd = true;
 
   //initialize objects
   launcher.init();
@@ -52,11 +54,10 @@ void setup()
   popBumperB.init();
   pongSlider.init();
 
-
-  //flash some shit
-  
+  //flash some shit onetime
 
   // roundRunning = true; //manual override to skip waiting for launch
+  // checkRoundEnd = false; //set to false so that round lasts forever
 }
 
 void loop()
@@ -107,7 +108,7 @@ void loop()
     // scoreKeeper.updateScoreBoard();
     // Serial.println(scoreKeeper.getTotalScore());
 
-    if(rstSensor.update(currTime)) //if rst sensor triged
+    if(rstSensor.update(currTime) && checkRoundEnd) //if rst sensor triged
     {
       //round end code
       Serial.println("Round " + String(roundNum) + " over");
