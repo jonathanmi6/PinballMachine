@@ -8,7 +8,7 @@ namespace Pinball::DropTGT
 namespace Constants
 {
     const unsigned long RESET_TIME = 300;
-    const unsigned long DROP_TIME = 2000;
+    const unsigned long DROP_TIME = 5000;
     const int UP_POSITION = 100;
     const int DOWN_POSITION = 0;
 }
