@@ -7,6 +7,9 @@
 
 namespace Pinball::Constants
 {
+//Game settings
+const int maxRounds = 3;
+
 //Drop target pins
 const int DROP_TGT_A_SERVO_PIN = 2; //PWM
 const int DROP_TGT_B_SERVO_PIN = 3; //PWM
@@ -18,7 +21,7 @@ const int DROP_TGT_C_SWITCH_PIN = 24; //DIN
 //Pop bumper pins
 const int POP_BUMP_A_SOLND_PIN = 5; //PWM
 const int POP_BUMP_B_SOLND_PIN = 6; //PWM
-const int POP_BUMP_A_SENSE_PIN = 25; //DIN? or ANALOG IN
+const int POP_BUMP_A_SENSE_PIN = 27; //DIN? or ANALOG IN
 const int POP_BUMP_B_SENSE_PIN = 26; //DIN? or ANALOG IN
 
 //Pong Slider Input Pins

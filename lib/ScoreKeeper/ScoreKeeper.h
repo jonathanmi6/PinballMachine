@@ -17,9 +17,9 @@ namespace ScoreKeep {
 
 namespace Constants
 {
-    const double DROP_TGT_MULTIPLIER = 5;
-    const double POP_BUMP_MULTIPLIER = 1;
-    const double SLINGSHOT_MULTIPLIER = 1;
+    const double DROP_TGT_MULTIPLIER = 500;
+    const double POP_BUMP_MULTIPLIER = 50;
+    const double SLINGSHOT_MULTIPLIER = 50;
     const double VERT_SPINNER_MULTIPLIER = 0.5;
 }
 
@@ -46,7 +46,7 @@ class ScoreKeeper
         void clearScoreBoard();
         void scoreBoardOff();
         void setScoreBoard(int value);
-        void writeDigit(int digitPin, int value);
+        void resetScore();
         int getTotalScore();
 };
 }}

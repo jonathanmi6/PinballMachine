@@ -22,11 +22,12 @@ Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
 int totalScore;
 unsigned long currTime;
 bool roundRunning;
+int roundNum;
 
 void updateScores()
 {
   totalScore = (dropTargetA.getScore() + dropTargetB.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
-              + popBumperA.getScore() * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
+              + (popBumperA.getScore() + popBumperB.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
 }
 
 void setup()  //for testing drop target
@@ -36,7 +37,7 @@ void setup()  //for testing drop target
   roundRunning = false;
 
   //initialize objects
-  // dropTargetA.init();
+  dropTargetA.init();
   // dropTargetB.init();
   popBumperA.init();
   popBumperB.init();
@@ -46,24 +47,30 @@ void setup()  //for testing drop target
 
 void loop()
 {
-  currTime = millis(); //update time
+
+
+
+
+
 
   // while (roundRunning)
   // {
   //   /* code */
   // }
+  currTime = millis(); //update time
+
   
 
   //update mechanisms
-  // dropTargetA.update(currTime);
+  dropTargetA.update(currTime);
   // dropTargetB.update(currTime);
   popBumperA.update(currTime);
   popBumperB.update(currTime);
-  pongSlider.update(currTime);
+  // pongSlider.update(currTime);
 
-  // updateScores();
-  // scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
-  // Serial.println(scoreKeeper.getTotalScore());
+  updateScores();
+  scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
+  Serial.println(scoreKeeper.getTotalScore());
 }
 
 

@@ -50,6 +50,11 @@ void ScoreKeeper::setScoreBoard(int value) //need to call at least 4 loops to wo
     scoreDisplay.display(value);
 }
 
+void ScoreKeeper::resetScore()
+{
+    totalScore = 0;
+}
+
 int ScoreKeeper::getTotalScore()
 {
     return totalScore;
