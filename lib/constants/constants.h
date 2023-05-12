@@ -19,7 +19,7 @@ const int DROP_TGT_C_SWITCH_PIN = 24; //DIN
 const int POP_BUMP_A_SOLND_PIN = 5; //PWM
 const int POP_BUMP_B_SOLND_PIN = 6; //PWM
 const int POP_BUMP_A_SENSE_PIN = 25; //DIN? or ANALOG IN
-const int POP_BUMP_B_SENSE_PIN = 25; //DIN? or ANALOG IN
+const int POP_BUMP_B_SENSE_PIN = 26; //DIN? or ANALOG IN
 
 //Pong Slider Input Pins
 const int SLIDE_L_BTN_PIN = 50; //DIN
@@ -35,24 +35,17 @@ const int SLIDE_MOTOR_FWD_PIN = 0; //DIO
 const int SLIDE_MOTOR_REV_PIN = 0; //DIO
 const int SLIDE_MOTOR_PWM_PIN = 7; //PWN
 
-const int FLIP_L_SOLND_PIN = 9; //PWM
-const int FLIP_R_SOLND_PIN = 10; //PWM
+const int FLIP_L_SOLND_PIN = 8; //PWM
+const int FLIP_R_SOLND_PIN = 9; //PWM
 
 //Slingshot pins
-const int SLING_SHOT_L_SOLND_PIN = 11; //PWM
-const int SLING_SHOT_R_SOLND_PIN = 12; //PWM
+const int SLING_SHOT_L_SOLND_PIN = 10; //PWM
+const int SLING_SHOT_R_SOLND_PIN = 11; //PWM
 const int SLING_SHOT_L_SENSE_PIN = 0; //DIN? or ANALOG IN
 const int SLING_SHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
 
 //Scoreboard pins
-const int SB_SER = 0; //DIO
-const int SB_RCLK = 0; //DIO
-const int SB_SRCLK = 0; //DIO
-//PNP - LOW = EN, HIGH = OFF
-const int SB_ONES_EN = 0; //DIO 
-const int SB_TENS_EN = 0; //DIO
-const int SB_HUNS_EN = 0; //DIO
-const int SB_THDS_EN = 0; //DIO
-
+const int SB_CLK = 0;
+const int SB_DIO = 0;
 
 }
