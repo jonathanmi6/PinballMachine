@@ -13,7 +13,6 @@ Pinball::DropTGT::DropTarget dropTargetA(Pinball::Constants::DROP_TGT_A_SERVO_PI
 Pinball::DropTGT::DropTarget dropTargetB(Pinball::Constants::DROP_TGT_B_SERVO_PIN, Pinball::Constants::DROP_TGT_B_SWITCH_PIN);
 Pinball::PopBump::PopBumper popBumperA(Pinball::Constants::POP_BUMP_A_SOLND_PIN, Pinball::Constants::POP_BUMP_A_SENSE_PIN);
 
-
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::HARD);
 
 //variables
@@ -34,7 +33,9 @@ void setup()  //for testing drop target
   //initialize objects
   // dropTargetA.init();
   // dropTargetB.init();
-  popBumperA.init();
+  // popBumperA.init();
+  pongSlider.init();
+  
 }
 
 void loop()
@@ -42,7 +43,8 @@ void loop()
   currTime = millis(); //update time
   // dropTargetA.update(currTime);//update drop target
   // dropTargetB.update(currTime);
-  popBumperA.update(currTime);
+  // popBumperA.update(currTime);
+  pongSlider.update(currTime);
 
   // updateScores();
   // scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
