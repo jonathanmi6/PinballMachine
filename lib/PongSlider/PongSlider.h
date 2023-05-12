@@ -1,12 +1,13 @@
 #pragma once
 
 #include "ScoreKeeper.h"
+#include "constants.h"
 
 namespace Pinball::PongSlide
 {   
 namespace Constants
 {
-    const unsigned long FLIP_TIME = 100;
+    const unsigned long FLIP_TIME = 500;
     const int FLIP_PERCENT = 255;
     const int HOLD_PERCENT = 100;
     const int OFF_PERCENT = 0;
