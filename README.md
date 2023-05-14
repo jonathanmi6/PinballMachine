@@ -12,6 +12,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * Slider
 * Slider buttons
 #### Todo:
+- [X] Design and build
 - [X] Test code logic
 - [X] Test flippers
 - [ ] Test slider with motor driver
@@ -37,14 +38,14 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 - [ ] Implement game flow code
     - [ ] Power up: flash some lights, etc in setup()
     - [x] Wait for launcher to launch
-    - [x]Loop code until reset sensor triggered
-        - [x]End round
-        - [x]Increment round count
-    - [x]Check round cound < max round count
-    - [x]Wait for launcher to launch again
-    - [x]Once round count > max round count
-        - [x]Reset score
-        - [x]Reset round count
+    - [x] Loop code until reset sensor triggered
+        - [x] End round
+        - [x] Increment round count
+    - [x] Check round cound < max round count
+    - [x] Wait for launcher to launch again
+    - [x] Once round count > max round count
+        - [x] Reset score
+        - [x] Reset round count
 - [ ] Discrete reset button on machine
 
 
@@ -58,8 +59,9 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * Drop sensor
 * Reset Servo
 #### Todo:
+- [X] Design and build
 - [X] Test code logic
-- [X] Test built mechanism
+- [X] Test mechanism
 
 ### Pop Bumper
 * Contact sensor
@@ -67,6 +69,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * Possibly reuse object for slingshot?
 
 #### Todo:
+- [x] Design and build
 - [x] Test code logic
 - [ ] Test with solenoid
 
@@ -78,15 +81,18 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 
 ### Horizontal Spinner
 * DC motor
+* Sensor?
 #### Todo:
 - [ ] Design and build
-- [ ] Program
+- [ ] Test code logic
+- [ ] Test mechanism
 
 ### Vertical Spinner
 * Spin sensor (LS that triggers per spin?)
 #### Todo:
 - [ ] Design and build
-- [ ] Program
+- [ ] Test code logic
+- [ ] Test mechanism
 
 
 
