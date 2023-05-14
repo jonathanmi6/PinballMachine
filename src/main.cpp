@@ -18,6 +18,8 @@ Pinball::DropTGT::DropTarget dropTargetB(Pinball::Constants::DROP_TGT_B_SERVO_PI
 Pinball::DropTGT::DropTarget dropTargetC(Pinball::Constants::DROP_TGT_C_SERVO_PIN, Pinball::Constants::DROP_TGT_C_SWITCH_PIN);
 Pinball::PopBump::PopBumper popBumperA(Pinball::Constants::POP_BUMP_A_SOLND_PIN, Pinball::Constants::POP_BUMP_A_SENSE_PIN);
 Pinball::PopBump::PopBumper popBumperB(Pinball::Constants::POP_BUMP_B_SOLND_PIN, Pinball::Constants::POP_BUMP_B_SENSE_PIN);
+Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN, Pinball::Constants::POP_BUMP_C_SENSE_PIN);
+//make slingshot a popbumper object?
 //make slingshot a popbumper object?
 
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
@@ -32,7 +34,7 @@ int roundNum;
 void updateScores()
 {
   totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
-              + (popBumperA.getScore() + popBumperB.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
+              + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
 }
 
 void setup()
@@ -52,6 +54,7 @@ void setup()
   // dropTargetC.init();
   popBumperA.init();
   popBumperB.init();
+  popBumperC.init();
   pongSlider.init();
 
   //flash some shit onetime
@@ -101,6 +104,7 @@ void loop()
     // dropTargetC.update(currTime);
     popBumperA.update(currTime);
     popBumperB.update(currTime);
+    popBumperC.update(currTime);
     // pongSlider.update(currTime);
 
     updateScores();
