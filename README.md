@@ -1,5 +1,5 @@
 # PinballMachine
-PlatformIO C++ code for ECE 115 pinball machine project.
+PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as controller.
 
 ## General Guidelines
 * All digital inputs are to be INPUT_PULLUP
@@ -12,9 +12,9 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 * Slider
 * Slider buttons
 #### Todo:
-* ~~Test code logic~~
-* ~~Test flippers~~
-* Test slider with motor driver
+- [X] Test code logic
+- [X] Test flippers
+- [ ] Test slider with motor driver
 
 ### Launcher
 * Launcher Solenoid
@@ -22,7 +22,9 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 * Launch strength pot
 
 #### Todo:
-* Implement code
+- [X] Design and build
+- [X] Test code logic
+- [ ] Test mechanism
 
 
 ### Score Keeper / Game Warden
@@ -31,19 +33,19 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 * Reset Sensors
 
 #### Todo:
-* Test scoreboard display code
-* Implement game flow code
-    * Power up: flash some lights, etc in setup()
-    * Wait for launcher to launch
-    * Loop code until reset sensor triggered
-        * End round
-        * Increment round count
-    * Check round cound < max round count
-    * Wait for launcher to launch again
-    * Once round count > max round count
-        * Reset score
-        * Reset round count
-* Discrete reset button on machine?
+- [ ] Test scoreboard display code
+- [ ] Implement game flow code
+    - [ ] Power up: flash some lights, etc in setup()
+    - [x] Wait for launcher to launch
+    - [x]Loop code until reset sensor triggered
+        - [x]End round
+        - [x]Increment round count
+    - [x]Check round cound < max round count
+    - [x]Wait for launcher to launch again
+    - [x]Once round count > max round count
+        - [x]Reset score
+        - [x]Reset round count
+- [ ] Discrete reset button on machine
 
 
 
@@ -56,28 +58,36 @@ PlatformIO C++ code for ECE 115 pinball machine project.
 * Drop sensor
 * Reset Servo
 #### Todo:
-* Fully tested :heavy_check_mark:
+- [X] Test code logic
+- [X] Test built mechanism
 
 ### Pop Bumper
 * Contact sensor
 * Pop Solenoid
+* Possibly reuse object for slingshot?
 
 #### Todo:
-* Code logic tested, test with solenoid
-* Possibly reuse for slingshot?
+- [x] Test code logic
+- [ ] Test with solenoid
 
 ### Channels
 * Channel Sensors
 #### Todo:
-* Code
+- [ ] Test code logic
+- [ ] Test with sensors
 
 ### Horizontal Spinner
 * DC motor
 #### Todo:
-* Design and build
-* Program
+- [ ] Design and build
+- [ ] Program
 
 ### Vertical Spinner
+* Spin sensor (LS that triggers per spin?)
+#### Todo:
+- [ ] Design and build
+- [ ] Program
+
 
 
 
