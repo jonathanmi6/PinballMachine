@@ -10,12 +10,13 @@ PopBumper::PopBumper(int solenoidPin, int sensePin)
     this->solenoidPin = solenoidPin;
     this->sensePin = sensePin;
     setScore(0);
+    triggeredFlag = false;
 }
 
 void PopBumper::init()
 {
-    pinMode(sensePin, INPUT_PULLUP);
     pinMode(solenoidPin, OUTPUT);
+    pinMode(sensePin, INPUT_PULLUP);
 }
 
 void PopBumper::update(unsigned long currTime)

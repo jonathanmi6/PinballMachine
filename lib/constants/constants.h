@@ -46,10 +46,10 @@ const int FLIP_L_SOLND_PIN = 9; //PWM
 const int FLIP_R_SOLND_PIN = 10; //PWM
 
 //Slingshot pins
-const int SLING_SHOT_L_SOLND_PIN = 11; //PWM
-const int SLING_SHOT_R_SOLND_PIN = 12; //PWM
-const int SLING_SHOT_L_SENSE_PIN = 0; //DIN? or ANALOG IN
-const int SLING_SHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
+const int SLINGSHOT_L_SOLND_PIN = 11; //PWM
+const int SLINGSHOT_R_SOLND_PIN = 12; //PWM
+const int SLINGSHOT_L_SENSE_PIN = 40; //DIN? or ANALOG IN
+const int SLINGSHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
 
 //Scorekeeper pins
 const int SB_CLK_PIN = 0; //DIO

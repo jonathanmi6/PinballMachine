@@ -19,7 +19,7 @@ Pinball::DropTGT::DropTarget dropTargetC(Pinball::Constants::DROP_TGT_C_SERVO_PI
 Pinball::PopBump::PopBumper popBumperA(Pinball::Constants::POP_BUMP_A_SOLND_PIN, Pinball::Constants::POP_BUMP_A_SENSE_PIN);
 Pinball::PopBump::PopBumper popBumperB(Pinball::Constants::POP_BUMP_B_SOLND_PIN, Pinball::Constants::POP_BUMP_B_SENSE_PIN);
 Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN, Pinball::Constants::POP_BUMP_C_SENSE_PIN);
-//make slingshot a popbumper object?
+Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN, Pinball::Constants::SLINGSHOT_L_SENSE_PIN);
 //make slingshot a popbumper object?
 
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
@@ -34,7 +34,8 @@ int roundNum;
 void updateScores()
 {
   totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
-              + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER;
+              + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER
+              + (slingShotL.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
 }
 
 void setup()
@@ -46,6 +47,7 @@ void setup()
   checkRoundEnd = true;
 
   //initialize objects
+  pongSlider.init();
   launcher.init();
   rstSensor.init();
 
@@ -55,12 +57,12 @@ void setup()
   popBumperA.init();
   popBumperB.init();
   popBumperC.init();
-  pongSlider.init();
+  slingShotL.init();
 
   //flash some shit onetime
 
-  // roundRunning = true; //manual override to skip waiting for launch
-  // checkRoundEnd = false; //set to false so that round lasts forever
+  roundRunning = true; //manual override to skip waiting for launch
+  checkRoundEnd = false; //set to false so that round lasts forever
 }
 
 void loop()
@@ -99,13 +101,14 @@ void loop()
     currTime = millis(); //update time
 
     //update mechanisms
-    dropTargetA.update(currTime);
+    // dropTargetA.update(currTime);
     // dropTargetB.update(currTime);
     // dropTargetC.update(currTime);
-    popBumperA.update(currTime);
-    popBumperB.update(currTime);
-    popBumperC.update(currTime);
+    // popBumperA.update(currTime);
+    // popBumperB.update(currTime);
+    // popBumperC.update(currTime);
     // pongSlider.update(currTime);
+    slingShotL.update(currTime);
 
     updateScores();
     scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
