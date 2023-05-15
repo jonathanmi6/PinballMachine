@@ -59,9 +59,7 @@ void setup()
     Serial.println("Motor Shield found.");
 
 	// initialize objects
-	Serial.println("bruh1");
 	pongSlider.init();
-	Serial.println("Bruh2");
 	launcher.init();
 	rstSensor.init();
 

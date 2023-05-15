@@ -50,13 +50,6 @@ void PongSlider::init()
 
     //adafruit motor shield implementation
     sliderMotor->setSpeed(sliderSpeedPercent);
-
-    // if (!AFMS.begin()) 
-    // {
-    //     Serial.println("Could not find Motor Shield. Check wiring.");
-    //     while (1);
-    // }
-    // Serial.println("Motor Shield found.");
 }
 
 void PongSlider::update(unsigned long currTime)
@@ -104,9 +97,9 @@ void PongSlider::update(unsigned long currTime)
         leftFlipFlag = false;
         analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::OFF_PERCENT);
     }
-    // Serial.println("bruh?");
+
     //update slider
-    slide(getSlideDirection()); //todo: add limit switches
+    slide(getSlideDirection());
 }
 
 void PongSlider::slide(Side side) //hbridge controller
@@ -122,7 +115,7 @@ void PongSlider::slide(Side side) //hbridge controller
         sliderMotor->setSpeed(sliderSpeedPercent);
         sliderMotor->run(FORWARD);
 
-        Serial.println("Moving right");
+        // Serial.println("Moving right");
         break;
     case LEFT:
         analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderSpeedPercent);
@@ -133,7 +126,7 @@ void PongSlider::slide(Side side) //hbridge controller
         sliderMotor->setSpeed(sliderSpeedPercent);
         sliderMotor->run(BACKWARD);
 
-        Serial.println("Moving left");
+        // Serial.println("Moving left");
         break;
     case HOLD:
         analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderHoldPercent);
