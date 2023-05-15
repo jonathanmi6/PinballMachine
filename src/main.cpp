@@ -107,8 +107,8 @@ void loop()
     // popBumperA.update(currTime);
     // popBumperB.update(currTime);
     // popBumperC.update(currTime);
-    // pongSlider.update(currTime);
-    slingShotL.update(currTime);
+    // slingShotL.update(currTime);
+    pongSlider.update(currTime);
 
     updateScores();
     scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper

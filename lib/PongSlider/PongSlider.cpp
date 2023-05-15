@@ -100,19 +100,19 @@ void PongSlider::slide(Side side) //hbridge controller
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, HIGH);
 
-        // Serial.println("Moving right");
+        Serial.println("Moving right");
         break;
     case LEFT:
         analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderSpeedPercent);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, HIGH);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
-        // Serial.println("Moving left");
+        Serial.println("Moving left");
         break;
     case HOLD:
         analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderHoldPercent);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
-        digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
+        digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
         // Serial.println("Holding");
         break;

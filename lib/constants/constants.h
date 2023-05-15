@@ -38,8 +38,8 @@ const int SLIDE_L_LS_PIN = 48; //DIN
 const int SLIDE_R_LS_PIN = 49; //DIN
 
 //Pong Slider Output Pins
-const int SLIDE_MOTOR_FWD_PIN = 0; //DIO
-const int SLIDE_MOTOR_REV_PIN = 0; //DIO
+const int SLIDE_MOTOR_FWD_PIN = 14; //DIO
+const int SLIDE_MOTOR_REV_PIN = 15; //DIO
 const int SLIDE_MOTOR_PWM_PIN = 8; //PWN
 
 const int FLIP_L_SOLND_PIN = 9; //PWM
