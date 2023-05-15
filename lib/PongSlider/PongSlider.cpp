@@ -1,11 +1,17 @@
 #include "Arduino.h"
 #include "PongSlider.h"
-#include "constants.h"
+// #include "constants.h"
+// #include "Adafruit_MotorShield.h"
+class Adafruit_MotorShield;
 
 namespace Pinball::PongSlide
 {
-PongSlider::PongSlider(Difficulty difficulty)
+
+PongSlider::PongSlider(Difficulty difficulty, Adafruit_DCMotor *sliderMotor)
 {
+    // AFMS = Adafruit_MotorShield(0x60);
+    // sliderMotor = AFMS.getMotor(3);
+    
     switch (difficulty)
     {
     case EASY:
@@ -20,6 +26,8 @@ PongSlider::PongSlider(Difficulty difficulty)
     default:
         break;
     }
+
+    this->sliderMotor = sliderMotor;
 }
 
 void PongSlider::init()
@@ -39,6 +47,16 @@ void PongSlider::init()
 
     leftFlipFlag = false;
     rightFlipFlag = false;
+
+    //adafruit motor shield implementation
+    sliderMotor->setSpeed(sliderSpeedPercent);
+
+    // if (!AFMS.begin()) 
+    // {
+    //     Serial.println("Could not find Motor Shield. Check wiring.");
+    //     while (1);
+    // }
+    // Serial.println("Motor Shield found.");
 }
 
 void PongSlider::update(unsigned long currTime)
@@ -86,7 +104,7 @@ void PongSlider::update(unsigned long currTime)
         leftFlipFlag = false;
         analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::OFF_PERCENT);
     }
-
+    // Serial.println("bruh?");
     //update slider
     slide(getSlideDirection()); //todo: add limit switches
 }
@@ -100,6 +118,10 @@ void PongSlider::slide(Side side) //hbridge controller
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, HIGH);
 
+        //adafruit motor shield implementation
+        sliderMotor->setSpeed(sliderSpeedPercent);
+        sliderMotor->run(FORWARD);
+
         Serial.println("Moving right");
         break;
     case LEFT:
@@ -107,12 +129,20 @@ void PongSlider::slide(Side side) //hbridge controller
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, HIGH);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
+        //adafruit motor shield implementation
+        sliderMotor->setSpeed(sliderSpeedPercent);
+        sliderMotor->run(BACKWARD);
+
         Serial.println("Moving left");
         break;
     case HOLD:
         analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderHoldPercent);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
+
+        //adafruit motor shield implementation
+        sliderMotor->setSpeed(0);
+        sliderMotor->run(FORWARD);
 
         // Serial.println("Holding");
         break;

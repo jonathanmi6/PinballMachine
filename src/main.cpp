@@ -8,8 +8,13 @@
 #include "Launcher.h"
 #include "DigitalDebounce.h"
 
+//adafruit motor shield implementation
+Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+Adafruit_DCMotor *myMotor = AFMS.getMotor(3);
+
 //create objects
-Pinball::PongSlide::PongSlider pongSlider(Pinball::EASY);
+
+Pinball::PongSlide::PongSlider pongSlider(Pinball::EASY, myMotor);
 Pinball::Launch::Launcher launcher(1);
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 
@@ -20,11 +25,11 @@ Pinball::PopBump::PopBumper popBumperA(Pinball::Constants::POP_BUMP_A_SOLND_PIN,
 Pinball::PopBump::PopBumper popBumperB(Pinball::Constants::POP_BUMP_B_SOLND_PIN, Pinball::Constants::POP_BUMP_B_SENSE_PIN);
 Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN, Pinball::Constants::POP_BUMP_C_SENSE_PIN);
 Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN, Pinball::Constants::SLINGSHOT_L_SENSE_PIN);
-//make slingshot a popbumper object?
+// make slingshot a popbumper object?
 
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
 
-//variables
+// variables
 int totalScore;
 unsigned long currTime;
 bool roundRunning;
@@ -33,96 +38,105 @@ int roundNum;
 
 void updateScores()
 {
-  totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER
-              + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER
-              + (slingShotL.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
+	totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER + (slingShotL.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
 }
 
 void setup()
 {
-  Serial.begin(9600);
-  totalScore = 0;
-  roundNum = 1;
-  roundRunning = false;
-  checkRoundEnd = true;
+	Serial.begin(9600);
+	totalScore = 0;
+	roundNum = 1;
+	roundRunning = false;
+	checkRoundEnd = true;
 
-  //initialize objects
-  pongSlider.init();
-  launcher.init();
-  rstSensor.init();
 
-  dropTargetA.init();
-  // dropTargetB.init();
-  // dropTargetC.init();
-  popBumperA.init();
-  popBumperB.init();
-  popBumperC.init();
-  slingShotL.init();
+	//adafruit motor shield implementation
+	if (!AFMS.begin()) 
+    {
+        Serial.println("Could not find Motor Shield. Check wiring.");
+        while (1);
+    }
+    Serial.println("Motor Shield found.");
 
-  //flash some shit onetime
+	// initialize objects
+	Serial.println("bruh1");
+	pongSlider.init();
+	Serial.println("Bruh2");
+	launcher.init();
+	rstSensor.init();
 
-  roundRunning = true; //manual override to skip waiting for launch
-  checkRoundEnd = false; //set to false so that round lasts forever
+	dropTargetA.init();
+	// dropTargetB.init();
+	// dropTargetC.init();
+	popBumperA.init();
+	popBumperB.init();
+	popBumperC.init();
+	slingShotL.init();
+
+	// flash some shit onetime
+
+	roundRunning = true;   // manual override to skip waiting for launch
+	checkRoundEnd = false; // set to false so that round lasts forever
+
+
 }
 
 void loop()
 {
-  if(roundNum > Pinball::Constants::MAX_ROUNDS)
-  {
-    //reset the game
-    Serial.println("Game Over");
-    totalScore = 0;
-    scoreKeeper.resetScore(); //why reset in two places??? badge code
-    roundNum = 0;
-    while(!launcher.getLaunchButton())
-    {
-      //wait for launch to be pressed
-      //put idle animation
-    }
-  }
+	if (roundNum > Pinball::Constants::MAX_ROUNDS)
+	{
+		// reset the game
+		Serial.println("Game Over");
+		totalScore = 0;
+		scoreKeeper.resetScore(); // why reset in two places??? badge code
+		roundNum = 0;
+		while (!launcher.getLaunchButton())
+		{
+			// wait for launch to be pressed
+			// put idle animation
+		}
+	}
 
-  Serial.println("Waiting for launch");
-  delay(1000); //delay to prevent accidental launching
+	Serial.println("Waiting for launch");
+	delay(1000); // delay to prevent accidental launching
 
-  launcher.resetLaunched();
-  while (!roundRunning) //waiting for round to start
-  {
-    currTime = millis();
-    launcher.update(currTime);
-    roundRunning = launcher.getLaunched(); //once launched, start round
+	launcher.resetLaunched();
+	while (!roundRunning) // waiting for round to start
+	{
+		currTime = millis();
+		launcher.update(currTime);
+		roundRunning = launcher.getLaunched(); // once launched, start round
 
-    //display some shit while idling
-  }
+		// display some shit while idling
+	}
 
-  //put one time round start code below
-  
-  while (roundRunning) //round started
-  {
-    currTime = millis(); //update time
+	// put one time round start code below
 
-    //update mechanisms
-    // dropTargetA.update(currTime);
-    // dropTargetB.update(currTime);
-    // dropTargetC.update(currTime);
-    // popBumperA.update(currTime);
-    // popBumperB.update(currTime);
-    // popBumperC.update(currTime);
-    // slingShotL.update(currTime);
-    pongSlider.update(currTime);
+	while (roundRunning) // round started
+	{
+		currTime = millis(); // update time
 
-    updateScores();
-    scoreKeeper.updateTotalScore(totalScore); //send total score to scoreKeeper
-    // scoreKeeper.updateScoreBoard();
-    // Serial.println(scoreKeeper.getTotalScore());
+		// update mechanisms
+		//  dropTargetA.update(currTime);
+		//  dropTargetB.update(currTime);
+		//  dropTargetC.update(currTime);
+		//  popBumperA.update(currTime);
+		//  popBumperB.update(currTime);
+		//  popBumperC.update(currTime);
+		//  slingShotL.update(currTime);
+		pongSlider.update(currTime);
 
-    if(rstSensor.update(currTime) && checkRoundEnd) //if rst sensor triged
-    {
-      //round end code
-      Serial.println("Round " + String(roundNum) + " over");
-      roundNum++;
-      roundRunning = false;
-    }
-  }
+		updateScores();
+		scoreKeeper.updateTotalScore(totalScore); // send total score to scoreKeeper
+		// scoreKeeper.updateScoreBoard();
+		// Serial.println(scoreKeeper.getTotalScore());
+
+		if (rstSensor.update(currTime) && checkRoundEnd) // if rst sensor triged
+		{
+			// round end code
+			Serial.println("Round " + String(roundNum) + " over");
+			roundNum++;
+			roundRunning = false;
+		}
+	}
 }
-
-

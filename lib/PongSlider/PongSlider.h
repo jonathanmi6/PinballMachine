@@ -2,9 +2,10 @@
 
 #include "ScoreKeeper.h"
 #include "constants.h"
+#include "Adafruit_MotorShield.h"
 
 namespace Pinball::PongSlide
-{   
+{
 namespace Constants
 {
     const unsigned long FLIP_TIME = 500;
@@ -15,12 +16,13 @@ namespace Constants
 
 class PongSlider
 {
-    enum Side
-    {
-        LEFT,
-        HOLD,
-        RIGHT,
-    };
+    public:
+        enum Side
+        {
+            LEFT,
+            HOLD,
+            RIGHT,
+        };
 
     private:
         unsigned long timeRightFlip;
@@ -32,16 +34,16 @@ class PongSlider
         bool leftFlipFlag;
         bool rightFlipFlag;
 
+        // Adafruit_MotorShield AFMS;
+        Adafruit_DCMotor *sliderMotor;
+
     public:
-        PongSlider(Difficulty difficulty);
+        PongSlider(Difficulty difficulty, Adafruit_DCMotor *sliderMotor);
         void update(unsigned long currTime);
         void init();
         
         void slide(Side side);
         bool getFlipButton(Side side);
         Side getSlideDirection();
-        
-        
 };
-
 }
