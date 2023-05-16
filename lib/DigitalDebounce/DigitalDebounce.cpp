@@ -35,6 +35,7 @@ bool DigitalDebounce::update(unsigned long currTime)
     {
         //sensor must read high for debounce time before confirmed
         triggedFlag = false; //reset flag
+        addScore();
         return true;
     }
 

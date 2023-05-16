@@ -3,6 +3,7 @@
 #include "Arduino.h"
 #include "constants.h"
 #include "ScoringElement.h"
+#include "ScoringElement.h"
 
 namespace Pinball::DigDB
 {
@@ -12,7 +13,7 @@ namespace Constants
 
 }
 
-class DigitalDebounce
+class DigitalDebounce : public Pinball::ScoringElement
 {
     private:
         int sensePin;
