@@ -134,8 +134,9 @@ void PongSlider::slide(Side side) //hbridge controller
         digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
         //adafruit motor shield implementation
-        sliderMotor->setSpeed(0);
+        sliderMotor->setSpeed(1);
         sliderMotor->run(FORWARD);
+        // sliderMotor->fullOff();
 
         // Serial.println("Holding");
         break;
@@ -159,10 +160,10 @@ bool PongSlider::getFlipButton(Side side)
 
 PongSlider::Side PongSlider::getSlideDirection()
 {
-    bool slideRButton = !digitalRead(Pinball::Constants::SLIDE_R_BTN_PIN); 
-    bool slideLButton = !digitalRead(Pinball::Constants::SLIDE_L_BTN_PIN);
-    bool slideRLim = !digitalRead(Pinball::Constants::SLIDE_R_LS_PIN);
-    bool slideLLim = !digitalRead(Pinball::Constants::SLIDE_L_LS_PIN);
+    slideRButton = !digitalRead(Pinball::Constants::SLIDE_R_BTN_PIN); 
+    slideLButton = !digitalRead(Pinball::Constants::SLIDE_L_BTN_PIN);
+    slideRLim = !digitalRead(Pinball::Constants::SLIDE_R_LS_PIN);
+    slideLLim = !digitalRead(Pinball::Constants::SLIDE_L_LS_PIN);
 
     if(!slideLButton && slideRButton) //only pressing right button
     {

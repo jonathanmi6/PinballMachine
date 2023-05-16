@@ -34,6 +34,11 @@ class PongSlider
         bool leftFlipFlag;
         bool rightFlipFlag;
 
+        bool slideRButton; 
+        bool slideLButton;
+        bool slideRLim;
+        bool slideLLim;
+
         // Adafruit_MotorShield AFMS;
         Adafruit_DCMotor *sliderMotor;
 
