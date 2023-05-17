@@ -17,6 +17,7 @@ void PopBumper::init()
 {
     pinMode(solenoidPin, OUTPUT);
     pinMode(sensePin, INPUT_PULLUP);
+    setScore(0);
 }
 
 void PopBumper::update(unsigned long currTime)

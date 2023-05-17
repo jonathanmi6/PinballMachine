@@ -24,6 +24,7 @@ void DigitalDebounce::init()
     }
     triggedFlag == false;
     waitForRelease == false;
+    setScore(0);
 }
 
 bool DigitalDebounce::update(unsigned long currTime)
