@@ -22,6 +22,8 @@ void DigitalDebounce::init()
     {
         pinMode(sensePin, INPUT);
     }
+    triggedFlag == false;
+    waitForRelease == false;
 }
 
 bool DigitalDebounce::update(unsigned long currTime)
@@ -31,26 +33,36 @@ bool DigitalDebounce::update(unsigned long currTime)
         triggedFlag = true;
         trigTime = currTime;
     }
-    else if(getInputRaw() && triggedFlag == true && currTime > trigTime + dbTime) 
+    else if(getInputRaw() && triggedFlag == true && waitForRelease == false && currTime > trigTime + dbTime) 
     {
-        //sensor must read high for debounce time before confirmed
-        triggedFlag = false; //reset flag
-        addScore();
+        waitForRelease == true;
+        addScore(); //need to only add score ONCE
         return true;
     }
+    else if(getInputRaw() && triggedFlag == true && waitForRelease == true) //so that update continues to return true while sensor is triggered
+    {
+        return true;
+    }
+    else if(!getInputRaw() && triggedFlag == true && waitForRelease == true)
+    {
+        //sensor is released
+        triggedFlag = false;
+        waitForRelease = false; //reset flags
+        return false;
+    }
 
-    return false;
+    return false; 
 }
 
 bool DigitalDebounce::getInputRaw()
 {
     if(pullUp)
     {
-        return !digitalRead(sensePin);
+        return !digitalRead(sensePin); //active LOW
     }
     else
     {
-        return digitalRead(sensePin);
+        return digitalRead(sensePin); //active HIGH
     }
 }
 

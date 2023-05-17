@@ -19,6 +19,7 @@ class DigitalDebounce : public Pinball::ScoringElement
         int sensePin;
         int dbTime;
         bool triggedFlag;
+        bool waitForRelease;
         bool pullUp;
         unsigned long trigTime;
 
