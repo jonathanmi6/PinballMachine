@@ -17,6 +17,9 @@ Adafruit_DCMotor *myMotor = AFMS.getMotor(3);
 Pinball::PongSlide::PongSlider pongSlider(Pinball::EASY, myMotor);
 Pinball::Launch::Launcher launcher(1);
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
+Pinball::DigDB::DigitalDebounce slotLeft(Pinball::Constants::SLOT_L_PIN, Pinball::Constants::SLOT_DBTIME, true);
+Pinball::DigDB::DigitalDebounce slotCenter(Pinball::Constants::SLOT_C_PIN, Pinball::Constants::SLOT_DBTIME, true);
+Pinball::DigDB::DigitalDebounce slotRight(Pinball::Constants::SLOT_R_PIN, Pinball::Constants::SLOT_DBTIME, true);
 
 Pinball::DropTGT::DropTarget dropTargetA(Pinball::Constants::DROP_TGT_A_SERVO_PIN, Pinball::Constants::DROP_TGT_A_SWITCH_PIN);
 Pinball::DropTGT::DropTarget dropTargetB(Pinball::Constants::DROP_TGT_B_SERVO_PIN, Pinball::Constants::DROP_TGT_B_SWITCH_PIN);
@@ -25,7 +28,7 @@ Pinball::PopBump::PopBumper popBumperA(Pinball::Constants::POP_BUMP_A_SOLND_PIN,
 Pinball::PopBump::PopBumper popBumperB(Pinball::Constants::POP_BUMP_B_SOLND_PIN, Pinball::Constants::POP_BUMP_B_SENSE_PIN);
 Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN, Pinball::Constants::POP_BUMP_C_SENSE_PIN);
 Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN, Pinball::Constants::SLINGSHOT_L_SENSE_PIN);
-// make slingshot a popbumper object?
+Pinball::PopBump::PopBumper slingShotR(Pinball::Constants::SLINGSHOT_R_SOLND_PIN, Pinball::Constants::SLINGSHOT_R_SENSE_PIN);
 
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
 
@@ -61,7 +64,11 @@ void setup()
 	// initialize objects
 	pongSlider.init();
 	launcher.init();
+
 	rstSensor.init();
+	// slotLeft.init();
+	// slotCenter.init();
+	// slotRight.init();
 
 	dropTargetA.init();
 	// dropTargetB.init();
@@ -70,28 +77,30 @@ void setup()
 	popBumperB.init();
 	popBumperC.init();
 	slingShotL.init();
+	// slingShotR.init();
+
+	Serial.println("Initialization successful");
 
 	// flash some shit onetime
 
 	roundRunning = true;   // manual override to skip waiting for launch
 	checkRoundEnd = false; // set to false so that round lasts forever
-
-
 }
 
 void loop()
 {
-	if (roundNum > Pinball::Constants::MAX_ROUNDS)
+	if (roundNum > Pinball::Constants::MAX_ROUNDS) //if max round number reached
 	{
 		// reset the game
 		Serial.println("Game Over");
 		totalScore = 0;
-		scoreKeeper.resetScore(); // why reset in two places??? badge code
+		scoreKeeper.resetScore(); // why reset score in two places??? badge code
 		roundNum = 0;
 		while (!launcher.getLaunchButton())
 		{
 			// wait for launch to be pressed
-			// put idle animation
+
+			// put idle animation while waiting
 		}
 	}
 
@@ -104,17 +113,42 @@ void loop()
 		currTime = millis();
 		launcher.update(currTime);
 		roundRunning = launcher.getLaunched(); // once launched, start round
-
 		// display some shit while idling
 	}
 
 	// put one time round start code below
+	// initialize all objects to reset them
+	pongSlider.init();
+	launcher.init();
+
+	rstSensor.init();
+	// slotLeft.init();
+	// slotCenter.init();
+	// slotRight.init();
+
+	dropTargetA.init();
+	// dropTargetB.init();
+	// dropTargetC.init();
+	popBumperA.init();
+	popBumperB.init();
+	popBumperC.init();
+	slingShotL.init();
+	// slingShotR.init();
+
+	Serial.println("Initialization successful, round " + String(roundNum) + " starting");
 
 	while (roundRunning) // round started
 	{
 		currTime = millis(); // update time
 
 		// update mechanisms
+		pongSlider.update(currTime);
+
+		rstSensor.update(currTime);
+		// slotLeft.update(currTime);
+		// slotCenter.update(currTime);
+		// slotRight.update(currTime);
+
 		//  dropTargetA.update(currTime);
 		//  dropTargetB.update(currTime);
 		//  dropTargetC.update(currTime);
@@ -122,7 +156,7 @@ void loop()
 		//  popBumperB.update(currTime);
 		//  popBumperC.update(currTime);
 		//  slingShotL.update(currTime);
-		pongSlider.update(currTime);
+		// slingShotR.update(currTime);
 
 		updateScores();
 		scoreKeeper.updateTotalScore(totalScore); // send total score to scoreKeeper
