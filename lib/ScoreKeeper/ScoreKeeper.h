@@ -21,6 +21,8 @@ namespace Constants
     const double POP_BUMP_MULTIPLIER = 50;
     const double SLINGSHOT_MULTIPLIER = 50;
     const double VERT_SPINNER_MULTIPLIER = 0.5;
+    const double SLOT_SIDE_MULTIPLIER = 100;
+    const double SLOT_CENTER_MULTIPLIER = 300;
 }
 
 class ScoreKeeper 

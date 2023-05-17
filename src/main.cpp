@@ -41,7 +41,11 @@ int roundNum;
 
 void updateScores()
 {
-	totalScore = (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER + (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER + (slingShotL.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
+	totalScore = (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
+	+ (slotCenter.getScore()) * Pinball::ScoreKeep::Constants::SLOT_CENTER_MULTIPLIER
+	+ (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER 
+	+ (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER 
+	+ (slingShotL.getScore() + slingShotR.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
 }
 
 void setup()
@@ -66,18 +70,18 @@ void setup()
 	launcher.init();
 
 	rstSensor.init();
-	// slotLeft.init();
-	// slotCenter.init();
-	// slotRight.init();
+	slotLeft.init();
+	slotCenter.init();
+	slotRight.init();
 
 	dropTargetA.init();
-	// dropTargetB.init();
-	// dropTargetC.init();
+	dropTargetB.init();
+	dropTargetC.init();
 	popBumperA.init();
 	popBumperB.init();
 	popBumperC.init();
 	slingShotL.init();
-	// slingShotR.init();
+	slingShotR.init();
 
 	Serial.println("Initialization successful");
 
@@ -122,18 +126,18 @@ void loop()
 	launcher.init();
 
 	rstSensor.init();
-	// slotLeft.init();
-	// slotCenter.init();
-	// slotRight.init();
+	slotLeft.init();
+	slotCenter.init();
+	slotRight.init();
 
 	dropTargetA.init();
-	// dropTargetB.init();
-	// dropTargetC.init();
+	dropTargetB.init();
+	dropTargetC.init();
 	popBumperA.init();
 	popBumperB.init();
 	popBumperC.init();
 	slingShotL.init();
-	// slingShotR.init();
+	slingShotR.init();
 
 	Serial.println("Initialization successful, round " + String(roundNum) + " starting");
 
@@ -145,18 +149,18 @@ void loop()
 		pongSlider.update(currTime);
 
 		rstSensor.update(currTime);
-		// slotLeft.update(currTime);
-		// slotCenter.update(currTime);
-		// slotRight.update(currTime);
+		slotLeft.update(currTime);
+		slotCenter.update(currTime);
+		slotRight.update(currTime);
 
-		//  dropTargetA.update(currTime);
-		//  dropTargetB.update(currTime);
-		//  dropTargetC.update(currTime);
-		//  popBumperA.update(currTime);
-		//  popBumperB.update(currTime);
-		//  popBumperC.update(currTime);
-		//  slingShotL.update(currTime);
-		// slingShotR.update(currTime);
+		dropTargetA.update(currTime);
+		dropTargetB.update(currTime);
+		dropTargetC.update(currTime);
+		popBumperA.update(currTime);
+		popBumperB.update(currTime);
+		popBumperC.update(currTime);
+		slingShotL.update(currTime);
+		slingShotR.update(currTime);
 
 		updateScores();
 		scoreKeeper.updateTotalScore(totalScore); // send total score to scoreKeeper

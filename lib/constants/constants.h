@@ -9,7 +9,7 @@ namespace Pinball::Constants
 {
 //Game settings
 const int MAX_ROUNDS = 3;
-const int GAME_RST_PIN = 36;
+const int GAME_RST_PIN = 37;
 const int GAME_RST_PIN_DBTIME = 10;
 
 //Drop target pins
@@ -24,18 +24,18 @@ const int DROP_TGT_C_SWITCH_PIN = 24; //DIN
 const int POP_BUMP_A_SOLND_PIN = 5; //PWM
 const int POP_BUMP_B_SOLND_PIN = 6; //PWM
 const int POP_BUMP_C_SOLND_PIN = 7; //PWM
-const int POP_BUMP_A_SENSE_PIN = 27; //DIN? or ANALOG IN
-const int POP_BUMP_B_SENSE_PIN = 26; //DIN? or ANALOG IN
+const int POP_BUMP_A_SENSE_PIN = 26; //DIN? or ANALOG IN
+const int POP_BUMP_B_SENSE_PIN = 27; //DIN? or ANALOG IN
 const int POP_BUMP_C_SENSE_PIN = 28; //DIN? or ANALOG IN
 
 //Pong Slider Input Pins
-const int SLIDE_L_BTN_PIN = 50; //DIN
-const int SLIDE_R_BTN_PIN = 51; //DIN
-const int FLIP_L_BTN_PIN = 52; //DIN
-const int FLIP_R_BTN_PIN = 53; //DIN
+const int SLIDE_L_BTN_PIN = 48; //DIN
+const int SLIDE_R_BTN_PIN = 49; //DIN
+const int FLIP_L_BTN_PIN = 50; //DIN
+const int FLIP_R_BTN_PIN = 51; //DIN
 
-const int SLIDE_L_LS_PIN = 48; //DIN
-const int SLIDE_R_LS_PIN = 49; //DIN
+const int SLIDE_L_LS_PIN = 52; //DIN
+const int SLIDE_R_LS_PIN = 53; //DIN
 
 //Pong Slider Output Pins
 const int SLIDE_MOTOR_FWD_PIN = 14; //DIO
@@ -48,22 +48,22 @@ const int FLIP_R_SOLND_PIN = 10; //PWM
 //Slingshot pins
 const int SLINGSHOT_L_SOLND_PIN = 11; //PWM
 const int SLINGSHOT_R_SOLND_PIN = 12; //PWM
-const int SLINGSHOT_L_SENSE_PIN = 40; //DIN? or ANALOG IN
-const int SLINGSHOT_R_SENSE_PIN = 0; //DIN? or ANALOG IN
+const int SLINGSHOT_L_SENSE_PIN = 29; //DIN? or ANALOG IN
+const int SLINGSHOT_R_SENSE_PIN = 30; //DIN? or ANALOG IN
 
 //Scorekeeper pins
-const int SB_CLK_PIN = 0; //DIO
-const int SB_DIO_PIN = 0; //DIO
+const int SB_CLK_PIN = 31; //DIO
+const int SB_DIO_PIN = 32; //DIO
 
 //Launcher Pins
 const int LAUNCH_SOLND_PIN = 12; //PWM
-const int LAUNCH_POT_PIN = 0; //analog
-const int LAUNCH_BTN_PIN = 37; //DIO
+const int LAUNCH_POT_PIN = 1; //analog
+const int LAUNCH_BTN_PIN = 33; //DIO
 
 //Slots pins
-const int SLOT_L_PIN = 0;
-const int SLOT_C_PIN = 0;
-const int SLOT_R_PIN = 0;
+const int SLOT_L_PIN = 34;
+const int SLOT_C_PIN = 35;
+const int SLOT_R_PIN = 36;
 const int SLOT_DBTIME = 10;
 
 }
