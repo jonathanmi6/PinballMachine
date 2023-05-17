@@ -10,7 +10,7 @@ namespace Pinball::Constants
 //Game settings
 const int MAX_ROUNDS = 3;
 const int GAME_RST_PIN = 36;
-const int GAME_RST_PIN_DBTIME = 50;
+const int GAME_RST_PIN_DBTIME = 10;
 
 //Drop target pins
 const int DROP_TGT_A_SERVO_PIN = 2; //PWM
@@ -59,5 +59,11 @@ const int SB_DIO_PIN = 0; //DIO
 const int LAUNCH_SOLND_PIN = 12; //PWM
 const int LAUNCH_POT_PIN = 0; //analog
 const int LAUNCH_BTN_PIN = 37; //DIO
+
+//Slots pins
+const int SLOT_L_PIN = 0;
+const int SLOT_C_PIN = 0;
+const int SLOT_R_PIN = 0;
+const int SLOT_DBTIME = 10;
 
 }
