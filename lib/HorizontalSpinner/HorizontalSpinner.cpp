@@ -1,17 +1,21 @@
 #include "HorizontalSpinner.h"
 
-Pinball::HSpin::HorizontalSpinner::HorizontalSpinner(int motorPin)
+namespace Pinball::HSpin
+{
+HorizontalSpinner::HorizontalSpinner(int motorPin)
 {
     this->motorPin = motorPin;
 
 }
 
-void Pinball::HSpin::HorizontalSpinner::init()
+void HorizontalSpinner::init()
 {
-
+    pinMode(motorPin, OUTPUT);
 }
 
-void Pinball::HSpin::HorizontalSpinner::update(unsigned long currTime)
+void HorizontalSpinner::update(unsigned long currTime)
 {
+    analogWrite(motorPin, Constants::SPIN_SPEED);
+}
 
 }

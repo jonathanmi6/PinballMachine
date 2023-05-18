@@ -40,7 +40,7 @@ const int SLIDE_R_LS_PIN = 53; //DIN
 //Pong Slider Output Pins
 const int SLIDE_MOTOR_FWD_PIN = 14; //DIO
 const int SLIDE_MOTOR_REV_PIN = 15; //DIO
-const int SLIDE_MOTOR_PWM_PIN = 8; //PWN
+const int SLIDE_MOTOR_PWM_PIN = 8; //PWN - do not need
 
 const int FLIP_L_SOLND_PIN = 9; //PWM
 const int FLIP_R_SOLND_PIN = 10; //PWM
@@ -56,7 +56,7 @@ const int SB_CLK_PIN = 31; //DIO
 const int SB_DIO_PIN = 32; //DIO
 
 //Launcher Pins
-const int LAUNCH_SOLND_PIN = 12; //PWM
+const int LAUNCH_SOLND_PIN = 13; //PWM
 const int LAUNCH_POT_PIN = 1; //analog
 const int LAUNCH_BTN_PIN = 33; //DIO
 
@@ -65,5 +65,9 @@ const int SLOT_L_PIN = 34;
 const int SLOT_C_PIN = 35;
 const int SLOT_R_PIN = 36;
 const int SLOT_DBTIME = 10;
+
+//Horizontal Spinner pins
+const int HSPINNER_MOTOR_PIN = 8; //same as slider pwm since slider uses shield board instead
+
 
 }

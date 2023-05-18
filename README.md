@@ -15,7 +15,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 - [X] Design and build
 - [X] Test code logic
 - [X] Test flippers
-- [ ] Test slider with motor driver
+- [X] Test slider with motor driver
 
 ### Launcher
 * Launcher Solenoid
@@ -46,7 +46,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
     - [x] Once round count > max round count
         - [x] Reset score
         - [x] Reset round count
-- [ ] Discrete reset button on machine
+- [X] Discrete reset button on machine
 
 
 
@@ -83,7 +83,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * DC motor
 * Sensor?
 #### Todo:
-- [ ] Design and build
+- [X] Design and build
 - [ ] Test code logic
 - [ ] Test mechanism
 
