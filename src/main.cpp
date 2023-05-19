@@ -38,6 +38,7 @@ unsigned long currTime;
 bool roundRunning;
 bool checkRoundEnd;
 int roundNum;
+String idleText;
 
 void updateScores()
 {
@@ -66,6 +67,7 @@ void setup()
     Serial.println("Motor Shield found.");
 
 	// initialize objects
+	scoreKeeper.init();
 	pongSlider.init();
 	launcher.init();
 
@@ -85,10 +87,15 @@ void setup()
 
 	Serial.println("Initialization successful");
 
-	// flash some shit onetime
-
 	roundRunning = true;   // manual override to skip waiting for launch
 	checkRoundEnd = false; // set to false so that round lasts forever
+
+	// flash some shit onetimel
+	matrixDisplay.displayScroll("Finished Initialization", PA_CENTER, PA_SCROLL_LEFT, 100);
+	while(!matrixDisplay.displayAnimate()) //while not done displaying
+	{
+		matrixDisplay.displayAnimate();
+	}
 }
 
 void loop()
@@ -100,11 +107,13 @@ void loop()
 		totalScore = 0;
 		scoreKeeper.resetScore(); // why reset score in two places??? badge code
 		roundNum = 0;
+		matrixDisplay.displayScroll("Press launch button to begin game!", PA_CENTER, PA_SCROLL_LEFT, 100);
 		while (!launcher.getLaunchButton())
 		{
-			// wait for launch to be pressed
+			// wait for launch to be pressed to start the game
 
 			// put idle animation while waiting
+			matrixDisplay.displayAnimate();
 		}
 	}
 
@@ -118,6 +127,14 @@ void loop()
 		launcher.update(currTime);
 		roundRunning = launcher.getLaunched(); // once launched, start round
 		// display some shit while idling
+		idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ", press launch button to launch ball";
+		matrixDisplay.displayClear();
+		matrixDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, 100);
+		if(matrixDisplay.displayAnimate())
+		{
+			matrixDisplay.displayReset();
+		}
+
 	}
 
 	// put one time round start code below

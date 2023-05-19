@@ -29,13 +29,13 @@ const int POP_BUMP_B_SENSE_PIN = 27; //DIN? or ANALOG IN
 const int POP_BUMP_C_SENSE_PIN = 28; //DIN? or ANALOG IN
 
 //Pong Slider Input Pins
-const int SLIDE_L_BTN_PIN = 48; //DIN
-const int SLIDE_R_BTN_PIN = 49; //DIN
-const int FLIP_L_BTN_PIN = 50; //DIN
-const int FLIP_R_BTN_PIN = 51; //DIN
+const int SLIDE_L_BTN_PIN = 40; //DIN
+const int SLIDE_R_BTN_PIN = 41; //DIN
+const int FLIP_L_BTN_PIN = 42; //DIN
+const int FLIP_R_BTN_PIN = 43; //DIN
 
-const int SLIDE_L_LS_PIN = 52; //DIN
-const int SLIDE_R_LS_PIN = 53; //DIN
+const int SLIDE_L_LS_PIN = 44; //DIN
+const int SLIDE_R_LS_PIN = 45; //DIN
 
 //Pong Slider Output Pins
 const int SLIDE_MOTOR_FWD_PIN = 14; //DIO
@@ -52,8 +52,9 @@ const int SLINGSHOT_L_SENSE_PIN = 29; //DIN? or ANALOG IN
 const int SLINGSHOT_R_SENSE_PIN = 30; //DIN? or ANALOG IN
 
 //Scorekeeper pins
-const int SB_CLK_PIN = 31; //DIO
-const int SB_DIO_PIN = 32; //DIO
+const int SB_CLK_PIN = 52; //SPI CLK
+const int SB_DAT_PIN = 51; //SPI MISO
+const int SB_CS_PIN = 53; //SPI SS 
 
 //Launcher Pins
 const int LAUNCH_SOLND_PIN = 13; //PWM
