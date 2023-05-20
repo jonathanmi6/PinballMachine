@@ -1,17 +1,14 @@
 #pragma once
 
 #include "ScoringElement.h"
-#include "TM1637.h"
+#include "constants.h"
 #include "MD_MAX72xx.h"
 #include "MD_Parola.h"
-#include "constants.h"
 
 
 //score board controls the scoreboard
 
 namespace Pinball::ScoreKeep {
-    
-MD_Parola matrixDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_CS_PIN, 4); //create matrix display obj
 
 namespace Constants
 {
@@ -29,9 +26,10 @@ class ScoreKeeper
         unsigned long flagTime;
         int totalScore;
         bool maxedScore;
+        MD_Parola cenDisplay;
 
     public:
-        ScoreKeeper(int a);
+        ScoreKeeper(MD_Parola &cMatrix);
         void init();
         void updateTotalScore(int totalScore);
         void updateScoreBoard();

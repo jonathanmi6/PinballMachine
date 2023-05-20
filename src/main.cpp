@@ -1,5 +1,7 @@
 #include "Arduino.h"
 #include "Servo.h"
+#include "MD_MAX72xx.h"
+#include "MD_Parola.h"
 #include "DropTarget.h"
 #include "ScoreKeeper.h"
 #include "PopBumper.h"
@@ -8,14 +10,17 @@
 #include "Launcher.h"
 #include "DigitalDebounce.h"
 
+
 //adafruit motor shield implementation
-Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+Adafruit_MotorShield AFMS;
 Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
+MD_Parola centerDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_CS_PIN, 4); //create matrix display obj
 
 //create objects
-
+Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
 Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher(1);
+
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 Pinball::DigDB::DigitalDebounce slotLeft(Pinball::Constants::SLOT_L_PIN, Pinball::Constants::SLOT_DBTIME, true);
 Pinball::DigDB::DigitalDebounce slotCenter(Pinball::Constants::SLOT_C_PIN, Pinball::Constants::SLOT_DBTIME, true);
@@ -30,7 +35,6 @@ Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN,
 Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN, Pinball::Constants::SLINGSHOT_L_SENSE_PIN);
 Pinball::PopBump::PopBumper slingShotR(Pinball::Constants::SLINGSHOT_R_SOLND_PIN, Pinball::Constants::SLINGSHOT_R_SENSE_PIN);
 
-Pinball::ScoreKeep::ScoreKeeper scoreKeeper(1);
 
 // variables
 int totalScore;
@@ -93,10 +97,10 @@ void setup()
 	checkRoundEnd = false; // set to false so that round lasts forever
 
 	// flash some shit onetimel
-	matrixDisplay.displayScroll("Finished Initialization", PA_CENTER, PA_SCROLL_LEFT, 100);
-	while(!matrixDisplay.displayAnimate()) //while not done displaying
+	centerDisplay.displayScroll("Finished Initialization", PA_CENTER, PA_SCROLL_LEFT, 100);
+	while(!centerDisplay.displayAnimate()) //while not done displaying
 	{
-		matrixDisplay.displayAnimate();
+		centerDisplay.displayAnimate();
 	}
 }
 
@@ -112,13 +116,13 @@ void loop()
 		scoreKeeper.resetScore(); // why reset score in two places??? badge code
 		roundNum = 0;
 
-		matrixDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, 100);
+		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, 100);
 		while (!launcher.getLaunchButton())
 		{
 			// wait for launch to be pressed to play again
 
 			// put idle animation while waiting
-			matrixDisplay.displayAnimate();
+			centerDisplay.displayAnimate();
 		}
 	}
 
@@ -133,11 +137,11 @@ void loop()
 		roundRunning = launcher.getLaunched(); // once launched, start round
 		// display some shit while idling
 		idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ", press launch button to launch ball";
-		matrixDisplay.displayClear();
-		matrixDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, 100);
-		if(matrixDisplay.displayAnimate())
+		centerDisplay.displayClear();
+		centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, 100);
+		if(centerDisplay.displayAnimate())
 		{
-			matrixDisplay.displayReset();
+			centerDisplay.displayReset();
 		}
 
 	}

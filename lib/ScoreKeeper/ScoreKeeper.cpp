@@ -5,7 +5,7 @@
 #include "MD_Parola.h"
 
 namespace Pinball::ScoreKeep {
-ScoreKeeper::ScoreKeeper(int a)
+ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member intiailizer list intializes the object
 {
     totalScore = 0;
     maxedScore = false;
@@ -13,9 +13,9 @@ ScoreKeeper::ScoreKeeper(int a)
 
 void ScoreKeeper::init()
 {
-    matrixDisplay.begin();
-    matrixDisplay.setIntensity(15);
-    matrixDisplay.displayClear();
+    cenDisplay.begin();
+    cenDisplay.setIntensity(15);
+    cenDisplay.displayClear();
 }
 void ScoreKeeper::updateTotalScore(int totalScore)
 {
@@ -35,8 +35,8 @@ void ScoreKeeper::setScoreBoard(int value)
         maxedScore = true;
     }
 
-    matrixDisplay.setTextAlignment(PA_CENTER);
-    matrixDisplay.print(value);
+    cenDisplay.setTextAlignment(PA_CENTER);
+    cenDisplay.print(value);
 }
 
 void ScoreKeeper::resetScore()
