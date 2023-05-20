@@ -16,6 +16,10 @@ PongSlider::PongSlider(Adafruit_DCMotor *sliderMotor)
     // sliderSpeedPercent = 180;
     // sliderSpeedPercent = 100;
     this->sliderMotor = sliderMotor;
+    sliderMotor->setSpeed(sliderSpeedPercent);
+
+    leftFlipFlag = false;
+    rightFlipFlag = false;
 }
 
 void PongSlider::init()
@@ -32,12 +36,6 @@ void PongSlider::init()
     pinMode(Pinball::Constants::SLIDE_MOTOR_REV_PIN, OUTPUT);
     pinMode(Pinball::Constants::FLIP_L_SOLND_PIN, OUTPUT);
     pinMode(Pinball::Constants::FLIP_R_SOLND_PIN, OUTPUT);
-
-    leftFlipFlag = false;
-    rightFlipFlag = false;
-
-    //adafruit motor shield implementation
-    sliderMotor->setSpeed(sliderSpeedPercent);
 }
 
 void PongSlider::update(unsigned long currTime)

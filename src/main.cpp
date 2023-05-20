@@ -40,17 +40,17 @@ Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN
 Pinball::PopBump::PopBumper slingShotR(Pinball::Constants::SLINGSHOT_R_SOLND_PIN, Pinball::Constants::SLINGSHOT_R_SENSE_PIN);
 
 
-// variables
-int totalScore;
+// game variables
 unsigned long currTime;
 bool roundRunning;
 bool checkRoundEnd;
 int roundNum;
 String idleText;
 
-void updateScores()
+int getScore()
 {
-	totalScore = (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
+	return 
+	  (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
 	+ (slotCenter.getScore()) * Pinball::ScoreKeep::Constants::SLOT_CENTER_MULTIPLIER
 	+ (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER 
 	+ (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER 
@@ -60,33 +60,31 @@ void updateScores()
 void setup()
 {
 	Serial.begin(9600);
+
 	//initialize round keeping variables
-	totalScore = 0;
 	roundNum = 1;
 	roundRunning = false;
 	checkRoundEnd = true;
 
-
-	//connect motor shield
+	// connect motor shield
 	if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
     {
         Serial.println("Could not find Motor Shield");
         while (1);
     }
 
-	// initialize objects
-	//non scoring objects
+	// non scoring objects
 	scoreKeeper.init();
 	pongSlider.init();
 	launcher.init();
 
-	//IR sensors
+	// IR sensors
 	rstSensor.init();
 	slotLeft.init();
 	slotCenter.init();
 	slotRight.init();
 
-	//scoring objects
+	// scoring objects
 	dropTargetA.init();
 	dropTargetB.init();
 	dropTargetC.init();
@@ -100,7 +98,7 @@ void setup()
 	checkRoundEnd = false; // set to false so that round lasts forever
 
 	// flash some shit onetime
-	centerDisplay.displayScroll("Finished Initialization", PA_CENTER, PA_SCROLL_LEFT, 100);
+	centerDisplay.displayScroll("READY TO PLAY!", PA_CENTER, PA_SCROLL_LEFT, 100);
 	while(!centerDisplay.displayAnimate()) //while not done displaying
 	{
 		centerDisplay.displayAnimate();
@@ -118,8 +116,7 @@ void loop()
 		//
 		//
 
-		// reset score and round
-		totalScore = 0;
+		// reset round num
 		roundNum = 0;
 
 		// wait for user to start a new game 
@@ -134,7 +131,7 @@ void loop()
 	Serial.println("Waiting for launch");
 	delay(2000); // hard delay to prevent accidental launching from pressing launch button to restart game
 
-	launcher.resetLaunched();
+	launcher.resetLaunched(); // set launched flag back to false
 	while (!roundRunning) // while waiting for round to start
 	{
 		currTime = millis();
@@ -153,27 +150,24 @@ void loop()
 	}
 
 	// put one time round start code below
-	// initialize all objects to reset them
-	pongSlider.init();
-	launcher.init();
+	// reset scoring objects
+	rstSensor.reset();
+	slotLeft.reset();
+	slotCenter.reset();
+	slotRight.reset();
 
-	rstSensor.init();
-	slotLeft.init();
-	slotCenter.init();
-	slotRight.init();
+	dropTargetA.reset();
+	dropTargetB.reset();
+	dropTargetC.reset();
+	popBumperA.reset();
+	popBumperB.reset();
+	popBumperC.reset();
+	slingShotL.reset();
+	slingShotR.reset();
 
-	dropTargetA.init();
-	dropTargetB.init();
-	dropTargetC.init();
-	popBumperA.init();
-	popBumperB.init();
-	popBumperC.init();
-	slingShotL.init();
-	slingShotR.init();
+	Serial.println("Reset scoring objects, round " + String(roundNum) + " starting");
 
-	Serial.println("Initialization successful, round " + String(roundNum) + " starting");
-
-	while (roundRunning) // round started
+	while (roundRunning) // running round loop
 	{
 		currTime = millis(); // update time
 
@@ -194,12 +188,11 @@ void loop()
 		slingShotL.update(currTime);
 		slingShotR.update(currTime);
 
-		updateScores();
-		scoreKeeper.updateTotalScore(totalScore); // send total score to scoreKeeper
-		// scoreKeeper.updateScoreBoard();
-		// Serial.println(scoreKeeper.getTotalScore());
+		scoreKeeper.updateTotalScore(getScore()); // send total score to scoreKeeper
+		// scoreKeeper.updateScoreBoard(); //update the scoreboard
+		// Serial.println(scoreKeeper.getTotalScore()); //debug: serial print score
 
-		if (rstSensor.update(currTime) && checkRoundEnd) // if rst sensor triged
+		if (rstSensor.update(currTime) && checkRoundEnd) // if rst sensor triged, end round
 		{
 			// round end code
 			Serial.println("Round " + String(roundNum) + " over");

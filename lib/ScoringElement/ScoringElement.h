@@ -12,5 +12,6 @@ namespace Pinball
             int getScore() {return score;}
             void addScore() {score++;}
             void setScore(int score) {this->score = score;}
+            void reset() {score = 0;}
     };
 }
