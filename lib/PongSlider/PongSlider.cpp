@@ -48,38 +48,38 @@ void PongSlider::update(unsigned long currTime)
     //watch the time, if too much time elapsed, set to hold mode to prevent solenoid burnout
     //if button released, reset flag
 
-    if(getFlipButton(RIGHT) && rightFlipFlag == false) //initial press
+    if(getFlipButton(RIGHT) && !rightFlipFlag) //initial press
     {
         // Serial.println("R Flipper Pressed");
         rightFlipFlag = true;
         timeRightFlip = currTime; //start counting time
         analogWrite(Pinball::Constants::FLIP_R_SOLND_PIN, Constants::FLIP_PERCENT); //set output to 100%
     }
-    else if(getFlipButton(RIGHT) && rightFlipFlag == true && currTime > timeRightFlip + Constants::FLIP_TIME) //switch to hold mode
+    else if(getFlipButton(RIGHT) && rightFlipFlag && currTime > timeRightFlip + Constants::FLIP_TIME) //switch to hold mode
     {
         // Serial.println("R flipper switching to hold current");
         analogWrite(Pinball::Constants::FLIP_R_SOLND_PIN, Constants::HOLD_PERCENT);
     }
-    else if(!getFlipButton(RIGHT) && rightFlipFlag == true) //when button released, turn solenoid off
+    else if(!getFlipButton(RIGHT) && rightFlipFlag) //when button released, turn solenoid off
     {
         // Serial.println("R flipper released");
         rightFlipFlag = false;
         analogWrite(Pinball::Constants::FLIP_R_SOLND_PIN, Constants::OFF_PERCENT);
     }
 
-    if(getFlipButton(LEFT) && leftFlipFlag == false) //initial press
+    if(getFlipButton(LEFT) && !leftFlipFlag) //initial press
     {
         // Serial.println("L Flipper Pressed");
         leftFlipFlag = true;
         timeLeftFlip = currTime; //start counting time
         analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::FLIP_PERCENT); //set output to 100%
     }
-    else if(getFlipButton(LEFT) && leftFlipFlag == true && currTime > timeLeftFlip + Constants::FLIP_TIME) //switch to hold mode
+    else if(getFlipButton(LEFT) && leftFlipFlag && currTime > timeLeftFlip + Constants::FLIP_TIME) //switch to hold mode
     {
         // Serial.println("L flipper switching to hold current");
         analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, Constants::HOLD_PERCENT);
     }
-    else if(!getFlipButton(LEFT) && leftFlipFlag == true) //when button released, turn solenoid off
+    else if(!getFlipButton(LEFT) && leftFlipFlag) //when button released, turn solenoid off
     {
         // Serial.println("L flipper released");
         leftFlipFlag = false;

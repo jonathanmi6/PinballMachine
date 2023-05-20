@@ -22,14 +22,14 @@ void DropTarget::init()
 
 void DropTarget::update(unsigned long currTime)
 {
-    if(isDropped() && droppedFlag == false) //one time trigger for when target first drops to initiate reset sequence
+    if(isDropped() && !droppedFlag) //one time trigger for when target first drops to initiate reset sequence
     {
         Serial.println("Target dropped");
         timeDropped = millis(); //get time at which target was dropped
         droppedFlag = true;
         addScore();
     }
-    else if(droppedFlag == true && resetting == false) //bring the target up
+    else if(droppedFlag && !resetting) //bring the target up
     {
         if(currTime > timeDropped + Constants::DROP_TIME) //check if target down time has been reached
         {
@@ -38,7 +38,7 @@ void DropTarget::update(unsigned long currTime)
             resetting = true;
         }
     }
-    else if(droppedFlag == true && resetting == true) //reset servo arm
+    else if(droppedFlag && resetting) //reset servo arm
     {
         if(currTime > timeDropped + Constants::DROP_TIME + Constants::RESET_TIME) //bring arm back down when target reset, or when timeout reached 
         {
@@ -49,16 +49,6 @@ void DropTarget::update(unsigned long currTime)
         }
     }
 }
-
-// void DropTarget::addScore()
-// {
-//     score++;
-// }
-
-// int DropTarget::getScore()
-// {
-//     return score;
-// }
 
 bool DropTarget::isDropped()
 {

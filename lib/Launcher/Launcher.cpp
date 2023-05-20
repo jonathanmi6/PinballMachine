@@ -19,14 +19,14 @@ void Launcher::init()
 
 void Launcher::update(unsigned long currTime)
 {
-    if(getLaunchButton() && launchFlag == false)
+    if(getLaunchButton() && !launchFlag)
     {
         launchFlag = true;
         trigTime = currTime;
         analogWrite(Pinball::Constants::LAUNCH_SOLND_PIN, getLaunchStrength());
         Serial.println("Launching at " + String(getLaunchStrength()));
     }
-    else if(launchFlag == true && currTime > trigTime + Constants::LAUNCH_TIME)
+    else if(launchFlag && currTime > trigTime + Constants::LAUNCH_TIME)
     {
         Serial.println("done launching");
         analogWrite(Pinball::Constants::LAUNCH_SOLND_PIN, Constants::OFF_PERCENT);
