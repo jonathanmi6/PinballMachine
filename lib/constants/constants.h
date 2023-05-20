@@ -38,6 +38,7 @@ const int SLIDE_L_LS_PIN = 44; //DIN
 const int SLIDE_R_LS_PIN = 45; //DIN
 
 //Pong Slider Output Pins
+const int AFMS_I2C_ADDR = 0x60;
 const int SLIDE_MOTOR_FWD_PIN = 14; //DIO
 const int SLIDE_MOTOR_REV_PIN = 15; //DIO
 const int SLIDE_MOTOR_PWM_PIN = 8; //PWN - do not need
@@ -52,6 +53,9 @@ const int SLINGSHOT_L_SENSE_PIN = 29; //DIN? or ANALOG IN
 const int SLINGSHOT_R_SENSE_PIN = 30; //DIN? or ANALOG IN
 
 //Scorekeeper pins
+const int SB_L_MATRIX_I2C_ADDR = 0x70;
+const int SB_R_MATRIX_I2C_ADDR = 0x71;
+
 const int SB_CLK_PIN = 52; //SPI CLK
 const int SB_DAT_PIN = 51; //SPI MISO
 const int SB_CS_PIN = 53; //SPI SS 

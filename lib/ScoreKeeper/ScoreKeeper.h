@@ -1,9 +1,10 @@
 #pragma once
 
-#include "ScoringElement.h"
+#include "Arduino.h"
 #include "constants.h"
 #include "MD_MAX72xx.h"
 #include "MD_Parola.h"
+#include "Adafruit_LEDBackpack.h"
 
 
 //score board controls the scoreboard
@@ -27,9 +28,11 @@ class ScoreKeeper
         int totalScore;
         bool maxedScore;
         MD_Parola cenDisplay;
+        Adafruit_8x8matrix lDisplay;
+        Adafruit_8x8matrix rDisplay;
 
     public:
-        ScoreKeeper(MD_Parola &cMatrix);
+        ScoreKeeper(MD_Parola &cMatrix, Adafruit_8x8matrix &lMatrix, Adafruit_8x8matrix &rMatrix);
         void init();
         void updateTotalScore(int totalScore);
         void updateScoreBoard();

@@ -1,11 +1,7 @@
-#include "Arduino.h"
 #include "ScoreKeeper.h"
-#include "constants.h"
-#include "MD_MAX72xx.h"
-#include "MD_Parola.h"
 
 namespace Pinball::ScoreKeep {
-ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member intiailizer list intializes the object
+ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix, Adafruit_8x8matrix &lMatrix, Adafruit_8x8matrix &rMatrix) : cenDisplay{cMatrix}, lDisplay{lMatrix}, rDisplay{rMatrix} //member intiailizer list intializes the object
 {
     totalScore = 0;
     maxedScore = false;
@@ -14,9 +10,17 @@ ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member inti
 void ScoreKeeper::init()
 {
     cenDisplay.begin();
-    cenDisplay.setIntensity(15);
+    cenDisplay.setIntensity(15); //brightness from 0->15
     cenDisplay.displayClear();
+
+    lDisplay.begin(Pinball::Constants::SB_L_MATRIX_I2C_ADDR);
+    rDisplay.begin(Pinball::Constants::SB_R_MATRIX_I2C_ADDR);
+    lDisplay.setBrightness(15); //brightness from 0->15
+    rDisplay.setBrightness(15);
+    lDisplay.clear();
+    rDisplay.clear();
 }
+
 void ScoreKeeper::updateTotalScore(int totalScore)
 {
     this->totalScore = totalScore;

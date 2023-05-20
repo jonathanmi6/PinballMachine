@@ -2,6 +2,7 @@
 #include "Servo.h"
 #include "MD_MAX72xx.h"
 #include "MD_Parola.h"
+#include "Adafruit_LEDBackpack.h"
 #include "DropTarget.h"
 #include "ScoreKeeper.h"
 #include "PopBumper.h"
@@ -11,13 +12,16 @@
 #include "DigitalDebounce.h"
 
 
-//adafruit motor shield implementation
+//Hardware Objects
 Adafruit_MotorShield AFMS;
 Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
 MD_Parola centerDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_CS_PIN, 4); //create matrix display obj
+Adafruit_8x8matrix leftDisplay;
+Adafruit_8x8matrix rightDisplay;
+
 
 //create objects
-Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
+Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay, leftDisplay, rightDisplay);
 Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher;
 
@@ -63,13 +67,12 @@ void setup()
 	checkRoundEnd = true;
 
 
-	//adafruit motor shield implementation
-	if (!AFMS.begin()) 
+	//connect motor shield
+	if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
     {
-        Serial.println("Could not find Motor Shield. Check wiring.");
+        Serial.println("Could not find Motor Shield");
         while (1);
     }
-    Serial.println("Motor Shield found.");
 
 	// initialize objects
 	//non scoring objects
@@ -96,7 +99,7 @@ void setup()
 	roundRunning = true;   // manual override to skip waiting for launch
 	checkRoundEnd = false; // set to false so that round lasts forever
 
-	// flash some shit onetimel
+	// flash some shit onetime
 	centerDisplay.displayScroll("Finished Initialization", PA_CENTER, PA_SCROLL_LEFT, 100);
 	while(!centerDisplay.displayAnimate()) //while not done displaying
 	{
@@ -110,31 +113,34 @@ void loop()
 	{
 		// reset the game
 		Serial.println("Game Over");
+		// game over text
+		// 
+		//
+		//
 
-
+		// reset score and round
 		totalScore = 0;
-		scoreKeeper.resetScore(); // why reset score in two places??? badge code
 		roundNum = 0;
 
+		// wait for user to start a new game 
 		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, 100);
-		while (!launcher.getLaunchButton())
+		while (!launcher.getLaunchButton()) // wait for launch to be pressed to play again (does not actually launch)
 		{
-			// wait for launch to be pressed to play again
-
-			// put idle animation while waiting
-			centerDisplay.displayAnimate();
+			centerDisplay.displayAnimate(); // put idle animation while waiting
+			// need to reset the animation 
 		}
 	}
 
 	Serial.println("Waiting for launch");
-	delay(1000); // delay to prevent accidental launching
+	delay(2000); // hard delay to prevent accidental launching from pressing launch button to restart game
 
 	launcher.resetLaunched();
-	while (!roundRunning) // waiting for round to start
+	while (!roundRunning) // while waiting for round to start
 	{
 		currTime = millis();
-		launcher.update(currTime);
-		roundRunning = launcher.getLaunched(); // once launched, start round
+		launcher.update(currTime); // update launcher
+		roundRunning = launcher.getLaunched(); // returns launched once ball has been fully launched
+
 		// display some shit while idling
 		idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ", press launch button to launch ball";
 		centerDisplay.displayClear();
