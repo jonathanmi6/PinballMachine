@@ -19,7 +19,7 @@ MD_Parola centerDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pin
 //create objects
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
 Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
-Pinball::Launch::Launcher launcher(1);
+Pinball::Launch::Launcher launcher;
 
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 Pinball::DigDB::DigitalDebounce slotLeft(Pinball::Constants::SLOT_L_PIN, Pinball::Constants::SLOT_DBTIME, true);

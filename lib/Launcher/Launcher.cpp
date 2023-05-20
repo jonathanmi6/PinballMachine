@@ -5,7 +5,7 @@
 namespace Pinball::Launch
 {
 
-Launcher::Launcher(int fak)
+Launcher::Launcher()
 {
     launchFlag = false;
     resetCount = 0;

@@ -24,7 +24,7 @@ class Launcher
         int getPotValue();
         
     public:
-        Launcher(int fak);
+        Launcher();
         void init();
         void update(unsigned long currTime);
 
