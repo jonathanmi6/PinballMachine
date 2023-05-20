@@ -5,9 +5,8 @@
 #include "MD_Parola.h"
 
 namespace Pinball::ScoreKeep {
-ScoreKeeper::ScoreKeeper(Difficulty difficulty)
+ScoreKeeper::ScoreKeeper(int a)
 {
-    this->difficulty = difficulty;
     totalScore = 0;
     maxedScore = false;
 }

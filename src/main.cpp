@@ -10,11 +10,11 @@
 
 //adafruit motor shield implementation
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-Adafruit_DCMotor *myMotor = AFMS.getMotor(3);
+Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
 
 //create objects
 
-Pinball::PongSlide::PongSlider pongSlider(Pinball::EASY, myMotor);
+Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher(1);
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 Pinball::DigDB::DigitalDebounce slotLeft(Pinball::Constants::SLOT_L_PIN, Pinball::Constants::SLOT_DBTIME, true);
@@ -30,7 +30,7 @@ Pinball::PopBump::PopBumper popBumperC(Pinball::Constants::POP_BUMP_C_SOLND_PIN,
 Pinball::PopBump::PopBumper slingShotL(Pinball::Constants::SLINGSHOT_L_SOLND_PIN, Pinball::Constants::SLINGSHOT_L_SENSE_PIN);
 Pinball::PopBump::PopBumper slingShotR(Pinball::Constants::SLINGSHOT_R_SOLND_PIN, Pinball::Constants::SLINGSHOT_R_SENSE_PIN);
 
-Pinball::ScoreKeep::ScoreKeeper scoreKeeper(Pinball::EASY);
+Pinball::ScoreKeep::ScoreKeeper scoreKeeper(1);
 
 // variables
 int totalScore;
@@ -52,6 +52,7 @@ void updateScores()
 void setup()
 {
 	Serial.begin(9600);
+	//initialize round keeping variables
 	totalScore = 0;
 	roundNum = 1;
 	roundRunning = false;
@@ -67,15 +68,18 @@ void setup()
     Serial.println("Motor Shield found.");
 
 	// initialize objects
+	//non scoring objects
 	scoreKeeper.init();
 	pongSlider.init();
 	launcher.init();
 
+	//IR sensors
 	rstSensor.init();
 	slotLeft.init();
 	slotCenter.init();
 	slotRight.init();
 
+	//scoring objects
 	dropTargetA.init();
 	dropTargetB.init();
 	dropTargetC.init();
@@ -84,8 +88,6 @@ void setup()
 	popBumperC.init();
 	slingShotL.init();
 	slingShotR.init();
-
-	Serial.println("Initialization successful");
 
 	roundRunning = true;   // manual override to skip waiting for launch
 	checkRoundEnd = false; // set to false so that round lasts forever
@@ -104,13 +106,16 @@ void loop()
 	{
 		// reset the game
 		Serial.println("Game Over");
+
+
 		totalScore = 0;
 		scoreKeeper.resetScore(); // why reset score in two places??? badge code
 		roundNum = 0;
-		matrixDisplay.displayScroll("Press launch button to begin game!", PA_CENTER, PA_SCROLL_LEFT, 100);
+
+		matrixDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, 100);
 		while (!launcher.getLaunchButton())
 		{
-			// wait for launch to be pressed to start the game
+			// wait for launch to be pressed to play again
 
 			// put idle animation while waiting
 			matrixDisplay.displayAnimate();

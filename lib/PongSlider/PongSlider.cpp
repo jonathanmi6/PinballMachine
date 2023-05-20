@@ -1,32 +1,20 @@
 #include "Arduino.h"
 #include "PongSlider.h"
-// #include "constants.h"
+#include "constants.h"
 // #include "Adafruit_MotorShield.h"
 class Adafruit_MotorShield;
 
 namespace Pinball::PongSlide
 {
 
-PongSlider::PongSlider(Difficulty difficulty, Adafruit_DCMotor *sliderMotor)
+PongSlider::PongSlider(Adafruit_DCMotor *sliderMotor)
 {
     // AFMS = Adafruit_MotorShield(0x60);
     // sliderMotor = AFMS.getMotor(3);
     
-    switch (difficulty)
-    {
-    case EASY:
     sliderSpeedPercent = 255;
-        break;
-    case MEDIUM:
-    sliderSpeedPercent = 180;
-        break;
-    case HARD:
-    sliderSpeedPercent = 100;
-        break;
-    default:
-        break;
-    }
-
+    // sliderSpeedPercent = 180;
+    // sliderSpeedPercent = 100;
     this->sliderMotor = sliderMotor;
 }
 

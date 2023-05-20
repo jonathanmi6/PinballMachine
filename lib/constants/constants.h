@@ -71,4 +71,11 @@ const int SLOT_DBTIME = 10;
 const int HSPINNER_MOTOR_PIN = 8; //same as slider pwm since slider uses shield board instead
 
 
+enum Difficulty
+{
+    EASY,
+    MEDIUM,
+    HARD,
+};
+
 }

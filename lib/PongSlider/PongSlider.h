@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ScoreKeeper.h"
 #include "constants.h"
 #include "Adafruit_MotorShield.h"
 
@@ -43,7 +42,7 @@ class PongSlider
         Adafruit_DCMotor *sliderMotor;
 
     public:
-        PongSlider(Difficulty difficulty, Adafruit_DCMotor *sliderMotor);
+        PongSlider(Adafruit_DCMotor *sliderMotor);
         void update(unsigned long currTime);
         void init();
         
