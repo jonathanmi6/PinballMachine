@@ -13,8 +13,8 @@
 
 
 //Hardware Objects
-Adafruit_MotorShield AFMS;
-Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
+// Adafruit_MotorShield AFMS = Adafruit_MotorShield(); //if motor shield does not successfully connect, setup will NOT run
+// Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
 MD_Parola centerDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_CS_PIN, 4); //create matrix display obj
 Adafruit_8x8matrix leftDisplay;
 Adafruit_8x8matrix rightDisplay;
@@ -22,7 +22,8 @@ Adafruit_8x8matrix rightDisplay;
 
 //create objects
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay, leftDisplay, rightDisplay);
-Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
+// Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
+// Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher;
 
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
@@ -49,8 +50,7 @@ String idleText;
 
 int getScore()
 {
-	return 
-	  (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
+	return (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
 	+ (slotCenter.getScore()) * Pinball::ScoreKeep::Constants::SLOT_CENTER_MULTIPLIER
 	+ (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER 
 	+ (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER 
@@ -60,6 +60,7 @@ int getScore()
 void setup()
 {
 	Serial.begin(9600);
+	Serial.println("Bruh");
 
 	//initialize round keeping variables
 	roundNum = 1;
@@ -67,15 +68,15 @@ void setup()
 	checkRoundEnd = true;
 
 	// connect motor shield
-	if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
-    {
-        Serial.println("Could not find Motor Shield");
-        while (1);
-    }
+	// if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
+    // {
+    //     Serial.println("Could not find Motor Shield");
+    //     while (1);
+    // }
 
 	// non scoring objects
 	scoreKeeper.init();
-	pongSlider.init();
+	// pongSlider.init();
 	launcher.init();
 
 	// IR sensors
@@ -94,15 +95,12 @@ void setup()
 	slingShotL.init();
 	slingShotR.init();
 
-	roundRunning = true;   // manual override to skip waiting for launch
-	checkRoundEnd = false; // set to false so that round lasts forever
+	// roundRunning = true;   // manual override to skip waiting for launch
+	// checkRoundEnd = false; // set to false so that round lasts forever
 
+	Serial.println("Initialized");
 	// flash some shit onetime
-	centerDisplay.displayScroll("READY TO PLAY!", PA_CENTER, PA_SCROLL_LEFT, 100);
-	while(!centerDisplay.displayAnimate()) //while not done displaying
-	{
-		centerDisplay.displayAnimate();
-	}
+	scoreKeeper.printTextBlocking("READY TO PLAY!");
 }
 
 void loop()
@@ -111,27 +109,47 @@ void loop()
 	{
 		// reset the game
 		Serial.println("Game Over");
-		// game over text
-		// 
-		//
-		//
-
+		scoreKeeper.printTextBlocking("GAME", PA_CENTER, PA_OPENING_CURSOR, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
+		scoreKeeper.printTextBlocking("OVER!", PA_CENTER, PA_OPENING_CURSOR, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 		// reset round num
 		roundNum = 0;
 
 		// wait for user to start a new game 
-		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, 100);
+		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED);
 		while (!launcher.getLaunchButton()) // wait for launch to be pressed to play again (does not actually launch)
 		{
-			centerDisplay.displayAnimate(); // put idle animation while waiting
-			// need to reset the animation 
+			scoreKeeper.printTextBlocking("Press launch button to play again!");
+			scoreKeeper.printTextBlocking("Previous score: ");
+			centerDisplay.setSpriteData(Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL, Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL);
+			scoreKeeper.printTextBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
+			// NEED TO PUT INTERRUPT 
 		}
+
+		// reset scoring objects
+		rstSensor.reset();
+		slotLeft.reset();
+		slotCenter.reset();
+		slotRight.reset();
+
+		dropTargetA.reset();
+		dropTargetB.reset();
+		dropTargetC.reset();
+		popBumperA.reset();
+		popBumperB.reset();
+		popBumperC.reset();
+		slingShotL.reset();
+		slingShotR.reset();
 	}
 
 	Serial.println("Waiting for launch");
 	delay(2000); // hard delay to prevent accidental launching from pressing launch button to restart game
 
 	launcher.resetLaunched(); // set launched flag back to false
+
+	// idling text display setup
+	centerDisplay.displayClear();
+	idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ". Launch ball to begin!";
+	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); //send text
 	while (!roundRunning) // while waiting for round to start
 	{
 		currTime = millis();
@@ -139,10 +157,7 @@ void loop()
 		roundRunning = launcher.getLaunched(); // returns launched once ball has been fully launched
 
 		// display some shit while idling
-		idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ", press launch button to launch ball";
-		centerDisplay.displayClear();
-		centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, 100);
-		if(centerDisplay.displayAnimate())
+		if(centerDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
 		{
 			centerDisplay.displayReset();
 		}
@@ -150,29 +165,16 @@ void loop()
 	}
 
 	// put one time round start code below
-	// reset scoring objects
-	rstSensor.reset();
-	slotLeft.reset();
-	slotCenter.reset();
-	slotRight.reset();
 
-	dropTargetA.reset();
-	dropTargetB.reset();
-	dropTargetC.reset();
-	popBumperA.reset();
-	popBumperB.reset();
-	popBumperC.reset();
-	slingShotL.reset();
-	slingShotR.reset();
 
-	Serial.println("Reset scoring objects, round " + String(roundNum) + " starting");
+	Serial.println("Round " + String(roundNum) + " starting");
 
 	while (roundRunning) // running round loop
 	{
 		currTime = millis(); // update time
 
 		// update mechanisms
-		pongSlider.update(currTime);
+		// pongSlider.update(currTime);
 
 		rstSensor.update(currTime);
 		slotLeft.update(currTime);
@@ -189,7 +191,7 @@ void loop()
 		slingShotR.update(currTime);
 
 		scoreKeeper.updateTotalScore(getScore()); // send total score to scoreKeeper
-		// scoreKeeper.updateScoreBoard(); //update the scoreboard
+		scoreKeeper.updateScoreBoard(); //update the scoreboard
 		// Serial.println(scoreKeeper.getTotalScore()); //debug: serial print score
 
 		if (rstSensor.update(currTime) && checkRoundEnd) // if rst sensor triged, end round
@@ -198,6 +200,9 @@ void loop()
 			Serial.println("Round " + String(roundNum) + " over");
 			roundNum++;
 			roundRunning = false;
+			scoreKeeper.printTextBlocking("ROUND", PA_CENTER, PA_GROW_UP, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
+			scoreKeeper.printTextBlocking("OVER", PA_CENTER, PA_GROW_UP, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
+
 		}
 	}
 }
