@@ -34,9 +34,9 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * Reset Sensors
 
 #### Todo:
-- [ ] Test scoreboard display code
-- [ ] Implement game flow code
-    - [ ] Power up: flash some lights, etc in setup()
+- [X] Test scoreboard display code
+- [X] Implement game flow code
+    - [X] Power up: flash some lights, etc in setup()
     - [x] Wait for launcher to launch
     - [x] Loop code until reset sensor triggered
         - [x] End round
