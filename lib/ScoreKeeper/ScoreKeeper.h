@@ -48,6 +48,7 @@ class ScoreKeeper
         bool getResetSensor();
 
         void printTextBlocking(String text, textPosition_t tPos = PA_CENTER, textEffect_t tEffect = PA_SCROLL_LEFT, int speed = Constants::DISPLAY_SCROLL_SPEED, int pauseTime = 0);
+        void printTextNonBlocking(String text, textPosition_t tPos = PA_CENTER, textEffect_t tEffect = PA_SCROLL_LEFT, int speed = Constants::DISPLAY_SCROLL_SPEED, int pauseTime = 0);
 };
 
 namespace Sprites

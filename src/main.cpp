@@ -13,8 +13,8 @@
 
 
 //Hardware Objects
-// Adafruit_MotorShield AFMS = Adafruit_MotorShield(); //if motor shield does not successfully connect, setup will NOT run
-// Adafruit_DCMotor *sliderMotor = AFMS.getMotor(3);
+Adafruit_MotorShield AFMS = Adafruit_MotorShield(Pinball::Constants::AFMS_I2C_ADDR); //if motor shield does not successfully connect, setup will NOT run
+Adafruit_DCMotor *sliderMotor = AFMS.getMotor(4);
 MD_Parola centerDisplay(MD_MAX72XX::FC16_HW, Pinball::Constants::SB_DAT_PIN, Pinball::Constants::SB_CLK_PIN, Pinball::Constants::SB_CS_PIN, 4); //create matrix display obj
 Adafruit_8x8matrix leftDisplay;
 Adafruit_8x8matrix rightDisplay;
@@ -23,7 +23,7 @@ Adafruit_8x8matrix rightDisplay;
 //create objects
 Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay, leftDisplay, rightDisplay);
 // Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
-// Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
+Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher;
 
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
@@ -68,32 +68,32 @@ void setup()
 	checkRoundEnd = true;
 
 	// connect motor shield
-	// if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
-    // {
-    //     Serial.println("Could not find Motor Shield");
-    //     while (1);
-    // }
+	if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
+    {
+        Serial.println("Could not find Motor Shield");
+        while (1);
+    }
 
 	// non scoring objects
 	scoreKeeper.init();
-	// pongSlider.init();
+	pongSlider.init();
 	launcher.init();
 
 	// IR sensors
 	rstSensor.init();
-	slotLeft.init();
-	slotCenter.init();
-	slotRight.init();
+	// slotLeft.init();
+	// slotCenter.init();
+	// slotRight.init();
 
 	// scoring objects
-	dropTargetA.init();
-	dropTargetB.init();
-	dropTargetC.init();
-	popBumperA.init();
-	popBumperB.init();
-	popBumperC.init();
-	slingShotL.init();
-	slingShotR.init();
+	// dropTargetA.init();
+	// dropTargetB.init();
+	// dropTargetC.init();
+	// popBumperA.init();
+	// popBumperB.init();
+	// popBumperC.init();
+	// slingShotL.init();
+	// slingShotR.init();
 
 	// roundRunning = true;   // manual override to skip waiting for launch
 	// checkRoundEnd = false; // set to false so that round lasts forever
@@ -116,29 +116,55 @@ void loop()
 
 		// wait for user to start a new game 
 		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED);
+		int count = 0;
+		bool nextAnimation = true;
 		while (!launcher.getLaunchButton()) // wait for launch to be pressed to play again (does not actually launch)
 		{
-			scoreKeeper.printTextBlocking("Press launch button to play again!");
-			scoreKeeper.printTextBlocking("Previous score: ");
-			centerDisplay.setSpriteData(Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL, Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL);
-			scoreKeeper.printTextBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
-			// NEED TO PUT INTERRUPT 
+			if(nextAnimation) //if time to set next animation
+			{
+				nextAnimation = false; //lower flag
+				switch (count) //check which animation
+				{
+				case 0:
+					scoreKeeper.printTextNonBlocking("Press launch button to play again!");
+					break;
+
+				case 1:
+					scoreKeeper.printTextNonBlocking("Previous score: ");
+					break;
+
+				case 2:
+					centerDisplay.setSpriteData(Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL, Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL);
+					scoreKeeper.printTextNonBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
+					break;
+				}
+			}
+
+			if(centerDisplay.displayAnimate()) // check if animation is done, if done, advance to next animation and raise flag for it
+			{
+				count++;
+				nextAnimation = true;
+				if(count == 3) //finished count 2 so reset to first string
+				{
+					count = 0;
+				}
+			}
 		}
 
 		// reset scoring objects
 		rstSensor.reset();
-		slotLeft.reset();
-		slotCenter.reset();
-		slotRight.reset();
+		// slotLeft.reset();
+		// slotCenter.reset();
+		// slotRight.reset();
 
-		dropTargetA.reset();
-		dropTargetB.reset();
-		dropTargetC.reset();
-		popBumperA.reset();
-		popBumperB.reset();
-		popBumperC.reset();
-		slingShotL.reset();
-		slingShotR.reset();
+		// dropTargetA.reset();
+		// dropTargetB.reset();
+		// dropTargetC.reset();
+		// popBumperA.reset();
+		// popBumperB.reset();
+		// popBumperC.reset();
+		// slingShotL.reset();
+		// slingShotR.reset();
 	}
 
 	Serial.println("Waiting for launch");
@@ -174,21 +200,21 @@ void loop()
 		currTime = millis(); // update time
 
 		// update mechanisms
-		// pongSlider.update(currTime);
+		pongSlider.update(currTime);
 
 		rstSensor.update(currTime);
-		slotLeft.update(currTime);
-		slotCenter.update(currTime);
-		slotRight.update(currTime);
+		// slotLeft.update(currTime);
+		// slotCenter.update(currTime);
+		// slotRight.update(currTime);
 
-		dropTargetA.update(currTime);
-		dropTargetB.update(currTime);
-		dropTargetC.update(currTime);
-		popBumperA.update(currTime);
-		popBumperB.update(currTime);
-		popBumperC.update(currTime);
-		slingShotL.update(currTime);
-		slingShotR.update(currTime);
+		// dropTargetA.update(currTime);
+		// dropTargetB.update(currTime);
+		// dropTargetC.update(currTime);
+		// popBumperA.update(currTime);
+		// popBumperB.update(currTime);
+		// popBumperC.update(currTime);
+		// slingShotL.update(currTime);
+		// slingShotR.update(currTime);
 
 		scoreKeeper.updateTotalScore(getScore()); // send total score to scoreKeeper
 		scoreKeeper.updateScoreBoard(); //update the scoreboard

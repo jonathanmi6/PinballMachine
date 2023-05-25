@@ -7,11 +7,11 @@ ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix, Adafruit_8x8matrix &lMatrix, Adafru
     maxedScore = false;
 }
 
-// ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay(cMatrix) //member intiailizer list intializes the object
-// {
-//     totalScore = 0;
-//     maxedScore = false;
-// }
+ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member intiailizer list intializes the object
+{
+    totalScore = 0;
+    maxedScore = false;
+}
 
 void ScoreKeeper::init()
 {
@@ -75,5 +75,12 @@ void ScoreKeeper::printTextBlocking(String text, textPosition_t tPos = PA_CENTER
     {
         cenDisplay.displayAnimate();
     }
+}
+
+void ScoreKeeper::printTextNonBlocking(String text, textPosition_t tPos, textEffect_t tEffect, int speed, int pauseTime) //need to call displayAnimate still each time
+{    
+    cenDisplay.displayClear();
+    cenDisplay.displayScroll(text.c_str(), tPos, tEffect, speed);
+    cenDisplay.setPause(pauseTime);
 }
 }
