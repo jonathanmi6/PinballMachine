@@ -9,14 +9,10 @@ namespace Pinball::PongSlide
 
 PongSlider::PongSlider(Adafruit_DCMotor *sliderMotor)
 {
-    // AFMS = Adafruit_MotorShield(0x60);
-    // sliderMotor = AFMS.getMotor(3);
-    
     sliderSpeedPercent = 255;
     // sliderSpeedPercent = 180;
     // sliderSpeedPercent = 100;
     this->sliderMotor = sliderMotor;
-    sliderMotor->setSpeed(sliderSpeedPercent);
 
     leftFlipFlag = false;
     rightFlipFlag = false;
@@ -24,6 +20,7 @@ PongSlider::PongSlider(Adafruit_DCMotor *sliderMotor)
 
 void PongSlider::init()
 {
+    sliderMotor->setSpeed(sliderSpeedPercent);
     pinMode(Pinball::Constants::SLIDE_R_BTN_PIN, INPUT_PULLUP);
     pinMode(Pinball::Constants::SLIDE_L_BTN_PIN, INPUT_PULLUP);
     pinMode(Pinball::Constants::FLIP_R_BTN_PIN, INPUT_PULLUP);
