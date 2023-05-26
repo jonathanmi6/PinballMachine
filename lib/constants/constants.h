@@ -4,6 +4,7 @@
 // DIO: 36 (14->43, 47-53)
 // PWM: 15 (2->13, 44-46)
 // ANALOG IN: 16 (A0 - A15)
+//interrupt: 2, 3, 18, 19,  // I2C: 20, 21
 
 namespace Pinball::Constants
 {
@@ -13,26 +14,26 @@ const int GAME_RST_PIN = 23;//49;
 const int GAME_RST_PIN_DBTIME = 10;
 
 // Drop target pins
-const int DROP_TGT_A_SERVO_PIN = 10;	  // PWM
+const int DROP_TGT_A_SERVO_PIN = 12;	  // PWM
 const int DROP_TGT_B_SERVO_PIN = 11;	  // PWM
-const int DROP_TGT_C_SERVO_PIN = 12;	  // PWM
-const int DROP_TGT_A_SWITCH_PIN = 22; // DIN
-const int DROP_TGT_B_SWITCH_PIN = 24; // DIN
-const int DROP_TGT_C_SWITCH_PIN = 26; // DIN
+const int DROP_TGT_C_SERVO_PIN = 10;	  // PWM
+const int DROP_TGT_A_SWITCH_PIN = 36; // DIN
+const int DROP_TGT_B_SWITCH_PIN = 34; // DIN
+const int DROP_TGT_C_SWITCH_PIN = 32; // DIN
 
 // Slingshot pins
 const int SLINGSHOT_L_SOLND_PIN = 7;  // PWM
 const int SLINGSHOT_R_SOLND_PIN = 4;  // PWM
-const int SLINGSHOT_L_SENSE_PIN = 34; // DIN
-const int SLINGSHOT_R_SENSE_PIN = 36; // DIN
+const int SLINGSHOT_L_SENSE_PIN = 40; // DIN
+const int SLINGSHOT_R_SENSE_PIN = 48; // DIN
 
 // Pop bumper pins
 const int POP_BUMP_A_SOLND_PIN = 8;	 // PWM
 const int POP_BUMP_B_SOLND_PIN = 2; // PWM
 const int POP_BUMP_C_SOLND_PIN = 6; // PWM
-const int POP_BUMP_A_SENSE_PIN = 38; // DIN
-const int POP_BUMP_B_SENSE_PIN = 40; // DIN
-const int POP_BUMP_C_SENSE_PIN = 42; // DIN
+const int POP_BUMP_A_SENSE_PIN = 21; // interrupt //42; // DIN
+const int POP_BUMP_B_SENSE_PIN = 19;// interrupt //46; // DIN
+const int POP_BUMP_C_SENSE_PIN = 18; // interrupt //44; // DIN
 
 
 // Pong Slider Input Pins

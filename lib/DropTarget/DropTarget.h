@@ -7,10 +7,10 @@ namespace Pinball::DropTGT
 {   
 namespace Constants
 {
-    const unsigned long RESET_TIME = 300;
-    const unsigned long DROP_TIME = 5000;
-    const int UP_POSITION = 100;
-    const int DOWN_POSITION = 0;
+    const unsigned long RESET_TIME = 400;
+    const unsigned long DROP_TIME = 2000;
+    const int UP_POSITION = 115;
+    const int DOWN_POSITION = 5;
 }
 
 class DropTarget: public ScoringElement
@@ -30,8 +30,6 @@ class DropTarget: public ScoringElement
         DropTarget(int servoPin, int switchPin);
         void init();
         void update(unsigned long currTime);
-        // void addScore();
-        // int getScore();
         bool isDropped();
         bool isResetting();
 };

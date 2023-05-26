@@ -16,7 +16,7 @@ ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member inti
 void ScoreKeeper::init()
 {
     cenDisplay.begin();
-    cenDisplay.setIntensity(0); //brightness from 0->15
+    cenDisplay.setIntensity(3); //brightness from 0->15
     cenDisplay.displayClear();
 
     // lDisplay.begin(Pinball::Constants::SB_L_MATRIX_I2C_ADDR);

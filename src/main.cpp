@@ -57,6 +57,26 @@ int getScore()
 	+ (slingShotL.getScore() + slingShotR.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
 }
 
+
+void interruptPopA()
+{
+	popBumperA.interruptFlag = true;
+	Serial.println("interrupt A");
+}
+
+void interruptPopB()
+{
+	popBumperB.interruptFlag = true;
+	Serial.println("interrupt B");
+}
+
+void interruptPopC()
+{
+	popBumperC.interruptFlag = true;
+	Serial.println("interrupt C");
+}
+
+
 void setup()
 {
 	Serial.begin(9600);
@@ -81,26 +101,30 @@ void setup()
 
 	// IR sensors
 	rstSensor.init();
-	// slotLeft.init();
-	// slotCenter.init();
-	// slotRight.init();
+	slotLeft.init();
+	slotCenter.init();
+	slotRight.init();
 
 	// scoring objects
-	// dropTargetA.init();
-	// dropTargetB.init();
-	// dropTargetC.init();
-	// popBumperA.init();
-	// popBumperB.init();
-	// popBumperC.init();
-	// slingShotL.init();
-	// slingShotR.init();
+	dropTargetA.init();
+	dropTargetB.init();
+	dropTargetC.init();
+	popBumperA.init();
+	popBumperB.init();
+	popBumperC.init();
+	slingShotL.init();
+	slingShotR.init();
+
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_A_SENSE_PIN), interruptPopA, LOW);
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_B_SENSE_PIN), interruptPopB, LOW);
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_C_SENSE_PIN), interruptPopC, LOW);
 
 	// roundRunning = true;   // manual override to skip waiting for launch
 	// checkRoundEnd = false; // set to false so that round lasts forever
 
 	Serial.println("Initialized");
 	// flash some shit onetime
-	scoreKeeper.printTextBlocking("READY TO PLAY!");
+	scoreKeeper.printTextBlocking("READY!");
 }
 
 void loop()
@@ -123,6 +147,7 @@ void loop()
 			if(nextAnimation) //if time to set next animation
 			{
 				nextAnimation = false; //lower flag
+				centerDisplay.displayClear();			
 				switch (count) //check which animation
 				{
 				case 0:
@@ -157,25 +182,25 @@ void loop()
 		// slotCenter.reset();
 		// slotRight.reset();
 
-		// dropTargetA.reset();
-		// dropTargetB.reset();
-		// dropTargetC.reset();
-		// popBumperA.reset();
-		// popBumperB.reset();
-		// popBumperC.reset();
-		// slingShotL.reset();
-		// slingShotR.reset();
+		dropTargetA.reset();
+		dropTargetB.reset();
+		dropTargetC.reset();
+		popBumperA.reset();
+		popBumperB.reset();
+		popBumperC.reset();
+		slingShotL.reset();
+		slingShotR.reset();
 	}
 
 	Serial.println("Waiting for launch");
-	delay(2000); // hard delay to prevent accidental launching from pressing launch button to restart game
+	delay(1000); // hard delay to prevent accidental launching from pressing launch button to restart game
 
 	launcher.resetLaunched(); // set launched flag back to false
 
 	// idling text display setup
 	centerDisplay.displayClear();
 	idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ". Launch ball to begin!";
-	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); //send text
+	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED*1.5); //send text
 	while (!roundRunning) // while waiting for round to start
 	{
 		currTime = millis();
@@ -210,9 +235,9 @@ void loop()
 		// dropTargetA.update(currTime);
 		// dropTargetB.update(currTime);
 		// dropTargetC.update(currTime);
-		// popBumperA.update(currTime);
-		// popBumperB.update(currTime);
-		// popBumperC.update(currTime);
+		popBumperA.update(currTime);
+		popBumperB.update(currTime);
+		popBumperC.update(currTime);
 		// slingShotL.update(currTime);
 		// slingShotR.update(currTime);
 
@@ -230,5 +255,17 @@ void loop()
 			scoreKeeper.printTextBlocking("OVER", PA_CENTER, PA_GROW_UP, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 
 		}
+		// Serial.println("Loop time: " + String(millis() - currTime));
 	}
 }
+
+
+// void interruptPopB()
+// {
+// 	popBumperB.interruptFlag = true;
+// }
+
+// void interruptPopC()
+// {
+// 	popBumperC.interruptFlag = true;
+// }
