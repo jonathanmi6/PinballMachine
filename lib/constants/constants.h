@@ -14,25 +14,25 @@ const int GAME_RST_PIN = 23;//49;
 const int GAME_RST_PIN_DBTIME = 10;
 
 // Drop target pins
-const int DROP_TGT_A_SERVO_PIN = 12;	  // PWM
-const int DROP_TGT_B_SERVO_PIN = 11;	  // PWM
-const int DROP_TGT_C_SERVO_PIN = 10;	  // PWM
+const int DROP_TGT_A_SERVO_PIN = 13;	  // PWM
+const int DROP_TGT_B_SERVO_PIN = 12;	  // PWM
+const int DROP_TGT_C_SERVO_PIN = 11;	  // PWM
 const int DROP_TGT_A_SWITCH_PIN = 36; // DIN
 const int DROP_TGT_B_SWITCH_PIN = 34; // DIN
 const int DROP_TGT_C_SWITCH_PIN = 32; // DIN
 
 // Slingshot pins
-const int SLINGSHOT_L_SOLND_PIN = 7;  // PWM
-const int SLINGSHOT_R_SOLND_PIN = 4;  // PWM
+const int SLINGSHOT_L_SOLND_PIN = 8;  // PWM
+const int SLINGSHOT_R_SOLND_PIN = 3;  // PWM
 const int SLINGSHOT_L_SENSE_PIN = 40; // DIN
 const int SLINGSHOT_R_SENSE_PIN = 48; // DIN
 
 // Pop bumper pins
-const int POP_BUMP_A_SOLND_PIN = 8;	 // PWM
-const int POP_BUMP_B_SOLND_PIN = 2; // PWM
-const int POP_BUMP_C_SOLND_PIN = 6; // PWM
-const int POP_BUMP_A_SENSE_PIN = 21; // interrupt //42; // DIN
-const int POP_BUMP_B_SENSE_PIN = 19;// interrupt //46; // DIN
+const int POP_BUMP_A_SOLND_PIN = 9;	 // PWM
+const int POP_BUMP_B_SOLND_PIN = 5; // PWM
+const int POP_BUMP_C_SOLND_PIN = 7; // PWM
+const int POP_BUMP_A_SENSE_PIN = 19; // interrupt //42; // DIN
+const int POP_BUMP_B_SENSE_PIN = 2;// interrupt //46; // DIN
 const int POP_BUMP_C_SENSE_PIN = 18; // interrupt //44; // DIN
 
 
@@ -48,8 +48,8 @@ const int SLIDE_R_LS_PIN = 33; // DIN
 // Pong Slider Output Pins
 const int AFMS_I2C_ADDR = 0x60;
 
-const int FLIP_L_SOLND_PIN = 5; // PWM
-const int FLIP_R_SOLND_PIN = 9; // PWM
+const int FLIP_L_SOLND_PIN = 6; // PWM
+const int FLIP_R_SOLND_PIN = 10; // PWM
 
 
 // Scorekeeper pins
@@ -61,7 +61,7 @@ const int SB_CLK_PIN = 52; // SPI CLK
 const int SB_CS_PIN = 53;  // SPI SS
 
 // Launcher Pins
-const int LAUNCH_SOLND_PIN = 3; // PWM
+const int LAUNCH_SOLND_PIN = 4; // PWM
 const int LAUNCH_POT_PIN = 1;	 // analog
 const int LAUNCH_BTN_PIN = 23;	 // DIO
 
@@ -72,7 +72,7 @@ const int SLOT_R_PIN = 32;	// DIO
 const int SLOT_DBTIME = 10; // DIO
 
 // Horizontal Spinner pins
-const int HSPINNER_MOTOR_PIN = 13; // PWM
+const int HSPINNER_MOTOR_PIN = 44; // PWM
 
 enum Difficulty
 {
