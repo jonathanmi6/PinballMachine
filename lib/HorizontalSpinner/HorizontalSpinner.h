@@ -15,6 +15,7 @@ class HorizontalSpinner : public Pinball::ScoringElement
 {
     private:
         int motorPin;
+        unsigned long prevCurrTime;
 
     public:
         HorizontalSpinner(int motorPin);
