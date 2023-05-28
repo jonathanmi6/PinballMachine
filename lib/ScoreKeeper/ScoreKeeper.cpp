@@ -7,16 +7,16 @@ ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix, Adafruit_8x8matrix &lMatrix, Adafru
     maxedScore = false;
 }
 
-ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member intiailizer list intializes the object
-{
-    totalScore = 0;
-    maxedScore = false;
-}
+// ScoreKeeper::ScoreKeeper(MD_Parola &cMatrix) : cenDisplay{cMatrix} //member intiailizer list intializes the object
+// {
+//     totalScore = 0;
+//     maxedScore = false;
+// }
 
 void ScoreKeeper::init()
 {
     cenDisplay.begin();
-    cenDisplay.setIntensity(3); //brightness from 0->15
+    cenDisplay.setIntensity(0); //brightness from 0->15
     cenDisplay.displayClear();
 
     // lDisplay.begin(Pinball::Constants::SB_L_MATRIX_I2C_ADDR);
@@ -41,7 +41,7 @@ void ScoreKeeper::setScoreBoard(int value)
 {
     if(value > 99999) //catch overflow
     {
-        value = 99999;
+        value = int(99999);
         maxedScore = true;
     }
 
@@ -60,13 +60,7 @@ int ScoreKeeper::getTotalScore()
     return totalScore;
 }
 
-bool ScoreKeeper::getResetSensor()
-{
-    //debounce?
-    return digitalRead(Pinball::Constants::GAME_RST_PIN);
-}
-
-void ScoreKeeper::printTextBlocking(String text, textPosition_t tPos = PA_CENTER, textEffect_t tEffect = PA_SCROLL_LEFT, int speed = Constants::DISPLAY_SCROLL_SPEED, int pauseTime = 0)
+void ScoreKeeper::printTextBlocking(String text, textPosition_t tPos, textEffect_t tEffect, int speed, int pauseTime)
 {
     cenDisplay.displayClear();
     cenDisplay.displayScroll(text.c_str(), tPos, tEffect, speed);
@@ -81,6 +75,20 @@ void ScoreKeeper::printTextNonBlocking(String text, textPosition_t tPos, textEff
 {    
     cenDisplay.displayClear();
     cenDisplay.displayScroll(text.c_str(), tPos, tEffect, speed);
-    cenDisplay.setPause(pauseTime);
+    // cenDisplay.setPause(pauseTime);
+    cenDisplay.displayReset();
+    cenDisplay.displayAnimate();
+
+}
+
+void ScoreKeeper::runDisplay()
+{
+    Serial.println("Animating");
+    if(cenDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
+    {
+        Serial.println("Done animating");
+        cenDisplay.displayClear();
+    	cenDisplay.displayReset();
+    }
 }
 }

@@ -136,7 +136,7 @@ void loop()
 		scoreKeeper.printTextBlocking("GAME", PA_CENTER, PA_OPENING_CURSOR, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 		scoreKeeper.printTextBlocking("OVER!", PA_CENTER, PA_OPENING_CURSOR, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 		// reset round num
-		roundNum = 0;
+		roundNum = 1;
 
 		// wait for user to start a new game 
 		centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED);
@@ -150,35 +150,37 @@ void loop()
 				switch (count) //check which animation
 				{
 				case 0:
-					Serial.println("case 0");
-					scoreKeeper.printTextNonBlocking("Press launch button to play again!");
-					centerDisplay.displayAnimate();
+					// scoreKeeper.printTextNonBlocking("Press launch button to play again!");
+					centerDisplay.displayScroll("Press launch button to play again!", PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); 
 					break;
 
 				case 1:
-					Serial.println("case 1");
-					scoreKeeper.printTextNonBlocking("Previous score: ");
-					centerDisplay.displayAnimate();
+					// scoreKeeper.printTextNonBlocking("Previous score: ");
+					centerDisplay.displayScroll("Previous score: ", PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); 
 					break;
 
 				case 2:
-					Serial.println("case 2");
 					centerDisplay.setSpriteData(Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL, Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL);
-					scoreKeeper.printTextNonBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
-					centerDisplay.displayAnimate();
+					// scoreKeeper.printTextNonBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
+					// centerDisplay.displayScroll(String(scoreKeeper.getTotalScore()).c_str(), PA_CENTER, PA_SPRITE, 50);
+					// centerDisplay.setPause(1000);
+					// Serial.println(String(scoreKeeper.getTotalScore()).c_str());
+					scoreKeeper.printTextBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
+					count++;
+					nextAnimation = true;
 					break;
 				}
 			}
 
-			if(centerDisplay.displayAnimate()) // check if animation is done, if done, advance to next animation and raise flag for it
+			if(centerDisplay.displayAnimate() && count < 2) // check if animation is done, if done, advance to next animation and raise flag for it
 			{
-				Serial.println("Animation " + String(count) + "done");
 				count++;
 				nextAnimation = true;
-				if(count == 3) //finished count 2 so reset to first string
-				{
-					count = 0;
-				}
+			}
+
+			if(count == 3) //finished count 2 so reset to first string
+			{
+				count = 0;
 			}
 		}
 
@@ -206,22 +208,22 @@ void loop()
 	// idling text display setup
 	// centerDisplay.displayClear();
 	idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ". Launch ball to begin!";
-	scoreKeeper.printTextNonBlocking(idleText);
-	// centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED*1.5); //send text
+	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); //send text
+	// scoreKeeper.printTextNonBlocking(idleText);
 	while (!roundRunning) // while waiting for round to start
 	{
-		scoreKeeper.runDisplay();
 
-		
+
 		currTime = millis();
 		launcher.update(currTime); // update launcher
 		roundRunning = launcher.getLaunched(); // returns launched once ball has been fully launched
 
 		// display some shit while idling
-		// if(centerDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
-		// {
-		// 	centerDisplay.displayReset();
-		// }
+		// scoreKeeper.runDisplay();
+		if(centerDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
+		{
+			centerDisplay.displayReset();
+		}
 
 	}
 
