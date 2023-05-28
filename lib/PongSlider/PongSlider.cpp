@@ -28,9 +28,6 @@ void PongSlider::init()
     pinMode(Pinball::Constants::SLIDE_R_LS_PIN, INPUT_PULLUP);
     pinMode(Pinball::Constants::SLIDE_L_LS_PIN, INPUT_PULLUP);
 
-    // pinMode(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, OUTPUT);
-    // pinMode(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, OUTPUT);
-    // pinMode(Pinball::Constants::SLIDE_MOTOR_REV_PIN, OUTPUT);
     pinMode(Pinball::Constants::FLIP_L_SOLND_PIN, OUTPUT);
     pinMode(Pinball::Constants::FLIP_R_SOLND_PIN, OUTPUT);
 }
@@ -90,9 +87,6 @@ void PongSlider::slide(Side side) //hbridge controller
     switch(side)
     {
     case RIGHT:
-        // analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderSpeedPercent);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, HIGH);
 
         //adafruit motor shield implementation
         sliderMotor->setSpeed(sliderSpeedPercent);
@@ -101,9 +95,6 @@ void PongSlider::slide(Side side) //hbridge controller
         // Serial.println("Moving right");
         break;
     case LEFT:
-        // analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderSpeedPercent);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, HIGH);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
         //adafruit motor shield implementation
         sliderMotor->setSpeed(sliderSpeedPercent);
@@ -112,13 +103,10 @@ void PongSlider::slide(Side side) //hbridge controller
         // Serial.println("Moving left");
         break;
     case HOLD:
-        // analogWrite(Pinball::Constants::SLIDE_MOTOR_PWM_PIN, sliderHoldPercent);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_FWD_PIN, LOW);
-        // digitalWrite(Pinball::Constants::SLIDE_MOTOR_REV_PIN, LOW);
 
         //adafruit motor shield implementation
-        sliderMotor->setSpeed(1);
-        sliderMotor->run(FORWARD);
+        sliderMotor->setSpeed(0);
+        sliderMotor->run(BACKWARD);
         // sliderMotor->fullOff();
 
         // Serial.println("Holding");
