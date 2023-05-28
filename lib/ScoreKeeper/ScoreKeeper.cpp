@@ -83,10 +83,10 @@ void ScoreKeeper::printTextNonBlocking(String text, textPosition_t tPos, textEff
 
 void ScoreKeeper::runDisplay()
 {
-    Serial.println("Animating");
+    // Serial.println("Animating");
     if(cenDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
     {
-        Serial.println("Done animating");
+        // Serial.println("Done animating");
         cenDisplay.displayClear();
     	cenDisplay.displayReset();
     }

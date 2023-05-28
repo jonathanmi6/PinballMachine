@@ -111,9 +111,6 @@ void PongSlider::slide(Side side) //hbridge controller
 
         // Serial.println("Holding");
         break;
-    default:
-        Serial.print("code broketh, how did you even get to here");
-        break;
     }
 }
 

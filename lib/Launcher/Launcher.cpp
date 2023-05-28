@@ -28,7 +28,7 @@ void Launcher::update(unsigned long currTime)
     }
     else if(launchFlag && currTime > trigTime + Constants::LAUNCH_TIME)
     {
-        Serial.println("done launching");
+        // Serial.println("done launching");
         analogWrite(Pinball::Constants::LAUNCH_SOLND_PIN, Constants::OFF_PERCENT);
         launchFlag = false;
         launched = true;
