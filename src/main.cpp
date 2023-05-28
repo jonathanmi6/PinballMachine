@@ -57,23 +57,22 @@ int getScore()
 	+ (slingShotL.getScore() + slingShotR.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
 }
 
-
 void interruptPopA()
 {
 	popBumperA.interruptFlag = true;
-	Serial.println("interrupt A");
+	// Serial.println("interrupt A");
 }
 
 void interruptPopB()
 {
 	popBumperB.interruptFlag = true;
-	Serial.println("interrupt B");
+	// Serial.println("interrupt B");
 }
 
 void interruptPopC()
 {
 	popBumperC.interruptFlag = true;
-	Serial.println("interrupt C");
+	// Serial.println("interrupt C");
 }
 
 
@@ -93,6 +92,7 @@ void setup()
         Serial.println("Could not find Motor Shield");
         while (1);
     }
+	Serial.println("Connected AFMS");
 
 	// non scoring objects
 	scoreKeeper.init();
@@ -124,7 +124,7 @@ void setup()
 
 	Serial.println("Initialized");
 	// flash some shit onetime
-	scoreKeeper.printTextBlocking("READY!");
+	scoreKeeper.printTextBlocking("READY!", PA_CENTER, PA_GROW_UP, 50, 500);
 }
 
 void loop()
@@ -146,27 +146,33 @@ void loop()
 		{
 			if(nextAnimation) //if time to set next animation
 			{
-				nextAnimation = false; //lower flag
-				centerDisplay.displayClear();			
+				nextAnimation = false; //lower flag			
 				switch (count) //check which animation
 				{
 				case 0:
+					Serial.println("case 0");
 					scoreKeeper.printTextNonBlocking("Press launch button to play again!");
+					centerDisplay.displayAnimate();
 					break;
 
 				case 1:
+					Serial.println("case 1");
 					scoreKeeper.printTextNonBlocking("Previous score: ");
+					centerDisplay.displayAnimate();
 					break;
 
 				case 2:
+					Serial.println("case 2");
 					centerDisplay.setSpriteData(Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL, Pinball::ScoreKeep::Sprites::fireball, Pinball::ScoreKeep::Sprites::W_FBALL, Pinball::ScoreKeep::Sprites::F_FBALL);
 					scoreKeeper.printTextNonBlocking(String(scoreKeeper.getTotalScore()), PA_CENTER, PA_SPRITE, 50, 1000);
+					centerDisplay.displayAnimate();
 					break;
 				}
 			}
 
 			if(centerDisplay.displayAnimate()) // check if animation is done, if done, advance to next animation and raise flag for it
 			{
+				Serial.println("Animation " + String(count) + "done");
 				count++;
 				nextAnimation = true;
 				if(count == 3) //finished count 2 so reset to first string
@@ -198,20 +204,24 @@ void loop()
 	launcher.resetLaunched(); // set launched flag back to false
 
 	// idling text display setup
-	centerDisplay.displayClear();
+	// centerDisplay.displayClear();
 	idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ". Launch ball to begin!";
-	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED*1.5); //send text
+	scoreKeeper.printTextNonBlocking(idleText);
+	// centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED*1.5); //send text
 	while (!roundRunning) // while waiting for round to start
 	{
+		scoreKeeper.runDisplay();
+
+		
 		currTime = millis();
 		launcher.update(currTime); // update launcher
 		roundRunning = launcher.getLaunched(); // returns launched once ball has been fully launched
 
 		// display some shit while idling
-		if(centerDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
-		{
-			centerDisplay.displayReset();
-		}
+		// if(centerDisplay.displayAnimate()) // check if animation is done, if done, reset to scroll again
+		// {
+		// 	centerDisplay.displayReset();
+		// }
 
 	}
 
@@ -232,14 +242,14 @@ void loop()
 		// slotCenter.update(currTime);
 		// slotRight.update(currTime);
 
-		// dropTargetA.update(currTime);
-		// dropTargetB.update(currTime);
-		// dropTargetC.update(currTime);
+		dropTargetA.update(currTime);
+		dropTargetB.update(currTime);
+		dropTargetC.update(currTime);
 		popBumperA.update(currTime);
 		popBumperB.update(currTime);
 		popBumperC.update(currTime);
-		// slingShotL.update(currTime);
-		// slingShotR.update(currTime);
+		slingShotL.update(currTime);
+		slingShotR.update(currTime);
 
 		scoreKeeper.updateTotalScore(getScore()); // send total score to scoreKeeper
 		scoreKeeper.updateScoreBoard(); //update the scoreboard
@@ -258,14 +268,3 @@ void loop()
 		// Serial.println("Loop time: " + String(millis() - currTime));
 	}
 }
-
-
-// void interruptPopB()
-// {
-// 	popBumperB.interruptFlag = true;
-// }
-
-// void interruptPopC()
-// {
-// 	popBumperC.interruptFlag = true;
-// }

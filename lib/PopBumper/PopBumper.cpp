@@ -16,18 +16,21 @@ PopBumper::PopBumper(int solenoidPin, int sensePin)
 void PopBumper::init()
 {
     pinMode(solenoidPin, OUTPUT);
-    pinMode(sensePin, INPUT_PULLUP);
+    // pinMode(sensePin, INPUT_PULLUP);
+    pinMode(sensePin, OUTPUT);
+    digitalWrite (sensePin, HIGH);
     setScore(0);
     // attachInterrupt(digitalPinToInterrupt(sensePin), Pinball::i, FALLING);
 }
 
 void PopBumper::update(unsigned long currTime)
 {
-    if(interruptFlag && !triggeredFlag)//isTriggered() && !triggeredFlag)
+    if(isTriggered() && !triggeredFlag)//isTriggered() && !triggeredFlag)
     {
         // Serial.println("Pop Bumper Triggered");
         timeTriggered = currTime;
         triggeredFlag = true;
+        analogWrite(solenoidPin, Constants::POP_PERCENT);
         
         addScore();
     }
@@ -52,7 +55,7 @@ void PopBumper::update(unsigned long currTime)
 
 bool PopBumper::isTriggered()
 {
-    return !digitalRead(sensePin);
+    return !digitalRead(sensePin) || interruptFlag;
 }
 
 // void PopBumper::interruptExecute()

@@ -25,7 +25,7 @@ class PopBumper: public Pinball::ScoringElement
         bool dropping;
 
     public:
-        bool interruptFlag;
+        volatile bool interruptFlag;
         PopBumper(int solenoidPin, int sensePin);
         void init();
         void update(unsigned long currTime);
