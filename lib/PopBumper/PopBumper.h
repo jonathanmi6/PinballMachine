@@ -30,6 +30,8 @@ class PopBumper: public Pinball::ScoringElement
         void init();
         void update(unsigned long currTime);
         bool isTriggered();
+
+        void stop();
 };
     
 }
