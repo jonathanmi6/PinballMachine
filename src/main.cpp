@@ -10,6 +10,7 @@
 #include "PongSlider.h"
 #include "Launcher.h"
 #include "DigitalDebounce.h"
+#include "HorizontalSpinner.h"
 
 
 //Hardware Objects
@@ -25,6 +26,7 @@ Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay, leftDisplay, rightDis
 // Pinball::ScoreKeep::ScoreKeeper scoreKeeper(centerDisplay);
 Pinball::PongSlide::PongSlider pongSlider(sliderMotor);
 Pinball::Launch::Launcher launcher;
+Pinball::HSpin::HorizontalSpinner hSpinner(Pinball::Constants::HSPINNER_MOTOR_PIN);
 
 Pinball::DigDB::DigitalDebounce rstSensor(Pinball::Constants::GAME_RST_PIN, Pinball::Constants::GAME_RST_PIN_DBTIME, true);
 Pinball::DigDB::DigitalDebounce slotLeft(Pinball::Constants::SLOT_L_PIN, Pinball::Constants::SLOT_DBTIME, true);
@@ -79,12 +81,12 @@ void interruptPopC()
 void setup()
 {
 	Serial.begin(9600);
-	Serial.println("Bruh");
+	Serial.println("Successfully created hardware objects");
 
 	//initialize round keeping variables
 	roundNum = 1;
-	roundRunning = false;
-	checkRoundEnd = true;
+	roundRunning = false; //set to true to skip launch
+	checkRoundEnd = true; //set to false to run round forever
 
 	// connect motor shield
 	if (!AFMS.begin(Pinball::Constants::AFMS_I2C_ADDR)) 
@@ -98,6 +100,7 @@ void setup()
 	scoreKeeper.init();
 	pongSlider.init();
 	launcher.init();
+	hSpinner.init();
 
 	// IR sensors
 	rstSensor.init();
@@ -226,7 +229,7 @@ void loop()
 		}
 
 	}
-
+	
 	// put one time round start code below
 
 
@@ -238,6 +241,7 @@ void loop()
 
 		// update mechanisms
 		pongSlider.update(currTime);
+		hSpinner.run();
 
 		rstSensor.update(currTime);
 		// slotLeft.update(currTime);
@@ -255,10 +259,22 @@ void loop()
 
 		scoreKeeper.updateTotalScore(getScore()); // send total score to scoreKeeper
 		scoreKeeper.updateScoreBoard(); //update the scoreboard
-		// Serial.println(scoreKeeper.getTotalScore()); //debug: serial print score
 
-		if (rstSensor.update(currTime) && checkRoundEnd) // if rst sensor triged, end round
+		if (rstSensor.getFiltState() && checkRoundEnd) // if rst sensor triged, end round
 		{
+			// stop mechanisms in case they were set high when game ended
+			pongSlider.stop();
+			hSpinner.stop();
+
+			dropTargetA.stop();
+			dropTargetB.stop();
+			dropTargetC.stop();
+			popBumperA.stop();
+			popBumperB.stop();
+			popBumperC.stop();
+			slingShotL.stop();
+			slingShotR.stop();
+
 			// round end code
 			Serial.println("Round " + String(roundNum) + " over");
 			roundNum++;
