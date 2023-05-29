@@ -6,7 +6,7 @@ namespace Constants
 {
     const unsigned long LAUNCH_TIME = 100;
     const int LAUNCH_PERCENT_MAX = 255;
-    const int LAUNCH_PERCENT_MIN = 130;
+    const int LAUNCH_PERCENT_MIN = 110;
     const int OFF_PERCENT = 0;
 
     //analog launcher? - how? pot?
