@@ -22,6 +22,7 @@ void DigitalDebounce::init()
     {
         pinMode(sensePin, INPUT);
     }
+    filtState = false;
     triggedFlag = false;
     waitForRelease = false;
     setScore(0);
@@ -33,15 +34,20 @@ bool DigitalDebounce::update(unsigned long currTime) //TODO: after flag is set h
     {
         triggedFlag = true;
         trigTime = currTime;
+        Serial.println("sensor trig flag");
     }
     else if(getInputRaw() && triggedFlag && !waitForRelease && currTime > trigTime + dbTime) //check if debounce time has elapsed and sensor still trigged
     {
         waitForRelease = true;
         addScore(); //need to only add score ONCE
+        Serial.println("Debounced time reached");
+        filtState = true;
         return true;
     }
     else if(getInputRaw() && triggedFlag && waitForRelease) //continue to return true while sensor is pressed
     {
+        Serial.println("Active");
+        filtState = true;
         return true;
     }
     else if(!getInputRaw() && triggedFlag) //when released (after being pressed) reset flags, does not matter if db was reached or not
@@ -49,10 +55,18 @@ bool DigitalDebounce::update(unsigned long currTime) //TODO: after flag is set h
         //sensor is released
         triggedFlag = false;
         waitForRelease = false; //reset flags
+        Serial.println("Released");
+        filtState = false;
         return false;
     }
 
+    filtState = false;
     return false; 
+}
+
+bool DigitalDebounce::getFiltState()
+{
+    return filtState;
 }
 
 bool DigitalDebounce::getInputRaw()
