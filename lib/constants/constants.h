@@ -4,19 +4,19 @@
 // DIO: 36 (14->43, 47-53)
 // PWM: 15 (2->13, 44-46)
 // ANALOG IN: 16 (A0 - A15)
-//interrupt: 2, 3, 18, 19,  // I2C: 20, 21
+// interrupt: 2, 3, 18, 19,  // I2C: 20, 21
 
 namespace Pinball::Constants
 {
 // Game settings
-const int MAX_ROUNDS = 3;
-const int GAME_RST_PIN = 23;//49;
-const int GAME_RST_PIN_DBTIME = 10;
+const int MAX_ROUNDS = 3; // int
+const int GAME_RST_PIN = 22; // DIO
+const int GAME_RST_PIN_DBTIME = 10; // ms
 
 // Drop target pins
-const int DROP_TGT_A_SERVO_PIN = 13;	  // PWM
-const int DROP_TGT_B_SERVO_PIN = 12;	  // PWM
-const int DROP_TGT_C_SERVO_PIN = 11;	  // PWM
+const int DROP_TGT_A_SERVO_PIN = 13; // PWM
+const int DROP_TGT_B_SERVO_PIN = 12; // PWM
+const int DROP_TGT_C_SERVO_PIN = 11; // PWM
 const int DROP_TGT_A_SWITCH_PIN = 36; // DIN
 const int DROP_TGT_B_SWITCH_PIN = 34; // DIN
 const int DROP_TGT_C_SWITCH_PIN = 32; // DIN
