@@ -149,7 +149,8 @@ void loop()
 		{
 			if(nextAnimation) //if time to set next animation
 			{
-				nextAnimation = false; //lower flag			
+				nextAnimation = false; //lower flag	
+				centerDisplay.displayClear();		
 				switch (count) //check which animation
 				{
 				case 0:
@@ -209,14 +210,12 @@ void loop()
 	launcher.resetLaunched(); // set launched flag back to false
 
 	// idling text display setup
-	// centerDisplay.displayClear();
+	centerDisplay.displayClear();
 	idleText = "Round " + String(roundNum) + " of " + String(Pinball::Constants::MAX_ROUNDS) + ". Launch ball to begin!";
 	centerDisplay.displayScroll(idleText.c_str(), PA_CENTER, PA_SCROLL_LEFT, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED); //send text
 	// scoreKeeper.printTextNonBlocking(idleText);
 	while (!roundRunning) // while waiting for round to start
 	{
-
-
 		currTime = millis();
 		launcher.update(currTime); // update launcher
 		roundRunning = launcher.getLaunched(); // returns launched once ball has been fully launched
