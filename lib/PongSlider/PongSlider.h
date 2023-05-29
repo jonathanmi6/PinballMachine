@@ -49,5 +49,7 @@ class PongSlider
         void slide(Side side);
         bool getFlipButton(Side side);
         Side getSlideDirection();
+
+        void stop();
 };
 }

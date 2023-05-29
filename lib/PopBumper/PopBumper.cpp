@@ -58,8 +58,8 @@ bool PopBumper::isTriggered()
     return !digitalRead(sensePin) || interruptFlag;
 }
 
-// void PopBumper::interruptExecute()
-// {
-//     triggeredFlag = true;
-// }
+void PopBumper::stop()
+{
+    analogWrite(solenoidPin, 0);
+}
 }

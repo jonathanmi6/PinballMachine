@@ -60,4 +60,8 @@ bool DropTarget::isResetting()
     return resetting;
 }
 
+void DropTarget::stop()
+{
+    TargetServo.write(Constants::DOWN_POSITION);
+}
 }

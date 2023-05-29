@@ -154,4 +154,11 @@ PongSlider::Side PongSlider::getSlideDirection()
         return HOLD;
     }
 }
+void PongSlider::stop()
+{
+    analogWrite(Pinball::Constants::FLIP_L_SOLND_PIN, 0);
+    analogWrite(Pinball::Constants::FLIP_R_SOLND_PIN, 0);
+    sliderMotor->setSpeed(0);
+    sliderMotor->run(BACKWARD);
+}
 }

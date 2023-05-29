@@ -19,6 +19,7 @@ void Launcher::init()
 
 void Launcher::update(unsigned long currTime)
 {
+    // Serial.println("Launch Strength (" + String(Constants::LAUNCH_PERCENT_MIN) + " - " + String(Constants::LAUNCH_PERCENT_MAX) + "): " + String(getLaunchStrength()));
     if(getLaunchButton() && !launchFlag)
     {
         launchFlag = true;
@@ -57,6 +58,10 @@ bool Launcher::getLaunchButton()
 
 int Launcher::getLaunchStrength() // map analog input to reasonable pwm output
 {
-    return map(getPotValue(), 0, 1023, Constants::LAUNCH_PERCENT_MIN, Constants::LAUNCH_PERCENT_MAX);
+    return map(getPotValue(), 1023, 0, Constants::LAUNCH_PERCENT_MIN, Constants::LAUNCH_PERCENT_MAX);
+}
+void Launcher::stop()
+{
+    analogWrite(Pinball::Constants::LAUNCH_POT_PIN, 0);
 }
 }

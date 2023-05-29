@@ -8,7 +8,7 @@ namespace Pinball::HSpin
 {
 namespace Constants
 {
-    const int SPIN_SPEED = 255;
+    const int SPIN_SPEED = 200;
 }
 
 class HorizontalSpinner : public Pinball::ScoringElement
@@ -20,7 +20,8 @@ class HorizontalSpinner : public Pinball::ScoringElement
     public:
         HorizontalSpinner(int motorPin);
         void init();
-        void update(unsigned long currTime);
+        void run();
+        void stop();
 };
 
     

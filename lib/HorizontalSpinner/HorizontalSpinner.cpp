@@ -13,17 +13,12 @@ void HorizontalSpinner::init()
     prevCurrTime = 0;
 }
 
-void HorizontalSpinner::update(unsigned long currTime)
+void HorizontalSpinner::run()
 {
-    if(currTime > prevCurrTime)
-    {
-        analogWrite(motorPin, Constants::SPIN_SPEED);
-    }
-    else
-    {
-        analogWrite(motorPin, 0);
-    }
-    prevCurrTime = currTime;
+    analogWrite(motorPin, Constants::SPIN_SPEED);
 }
-
+void HorizontalSpinner::stop()
+{
+    analogWrite(motorPin, 0);
+}
 }
