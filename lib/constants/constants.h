@@ -11,7 +11,7 @@ namespace Pinball::Constants
 // Game settings
 const int MAX_ROUNDS = 3; // int
 const int GAME_RST_PIN = 22; // DIO
-const int GAME_RST_PIN_DBTIME = 10; // ms
+const int GAME_RST_PIN_DBTIME = 5; // ms
 
 // Drop target pins
 const int DROP_TGT_A_SERVO_PIN = 13; // PWM
