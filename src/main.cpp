@@ -204,6 +204,10 @@ void loop()
 		slingShotR.reset();
 	}
 
+	dropTargetA.resetBlocking(false);
+	dropTargetB.resetBlocking(false);
+	dropTargetC.resetBlocking(false);
+
 	Serial.println("Waiting for launch");
 	delay(1000); // hard delay to prevent accidental launching from pressing launch button to restart game
 
@@ -274,6 +278,7 @@ void loop()
 			slingShotL.stop();
 			slingShotR.stop();
 
+
 			// round end code
 			Serial.println("Round " + String(roundNum) + " over");
 			roundNum++;
@@ -281,6 +286,9 @@ void loop()
 			scoreKeeper.printTextBlocking("ROUND", PA_CENTER, PA_GROW_UP, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 			scoreKeeper.printTextBlocking("OVER", PA_CENTER, PA_GROW_UP, Pinball::ScoreKeep::Constants::DISPLAY_SCROLL_SPEED, 500);
 
+			dropTargetA.resetBlocking(false);
+			dropTargetB.resetBlocking(false);
+			dropTargetC.resetBlocking(false);
 		}
 		// Serial.println("Loop time: " + String(millis() - currTime));
 	}

@@ -64,4 +64,13 @@ void DropTarget::stop()
 {
     TargetServo.write(Constants::DOWN_POSITION);
 }
+void DropTarget::resetBlocking(bool forceReset)
+{
+    if(forceReset || isDropped()) //reset only if dropped OR if force reset is true
+    {
+        TargetServo.write(Constants::UP_POSITION);
+        delay(Constants::RESET_TIME);
+        TargetServo.write(Constants::DOWN_POSITION);
+    }
+}
 }

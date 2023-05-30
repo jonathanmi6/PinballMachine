@@ -33,5 +33,7 @@ class DropTarget: public ScoringElement
         bool isDropped();
         bool isResetting();
         void stop();
+
+        void resetBlocking(bool forceReset);
 };
 }
