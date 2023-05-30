@@ -16,9 +16,9 @@ PopBumper::PopBumper(int solenoidPin, int sensePin)
 void PopBumper::init()
 {
     pinMode(solenoidPin, OUTPUT);
-    // pinMode(sensePin, INPUT_PULLUP);
-    pinMode(sensePin, OUTPUT);
-    digitalWrite (sensePin, HIGH);
+    pinMode(sensePin, INPUT_PULLUP);
+    // pinMode(sensePin, OUTPUT);
+    // digitalWrite (sensePin, HIGH);
     setScore(0);
     // attachInterrupt(digitalPinToInterrupt(sensePin), Pinball::i, FALLING);
 }
