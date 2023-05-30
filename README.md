@@ -25,7 +25,7 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 #### Todo:
 - [X] Design and build
 - [X] Test code logic
-- [ ] Test mechanism
+- [X] Test mechanism
 
 
 ### Score Keeper / Game Warden
@@ -71,12 +71,12 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 #### Todo:
 - [x] Design and build
 - [x] Test code logic
-- [ ] Test with solenoid
+- [X] Test with solenoid
 
 ### Channels
 * Channel Sensors
 #### Todo:
-- [ ] Test code logic
+- [X] Test code logic
 - [ ] Test with sensors
 
 ### Horizontal Spinner
@@ -84,8 +84,8 @@ PlatformIO C++ code for ECE 115 pinball machine project. Uses Arduino Mega as co
 * Sensor?
 #### Todo:
 - [X] Design and build
-- [ ] Test code logic
-- [ ] Test mechanism
+- [X] Test code logic
+- [X] Test mechanism
 
 ### Vertical Spinner
 * Spin sensor (LS that triggers per spin?)
