@@ -9,8 +9,9 @@ HorizontalSpinner::HorizontalSpinner(int motorPin)
 
 void HorizontalSpinner::init()
 {
-    pinMode(motorPin, OUTPUT);
+    // pinMode(motorPin, OUTPUT);
     prevCurrTime = 0;
+    analogWrite(motorPin, 0);
 }
 
 void HorizontalSpinner::run()
