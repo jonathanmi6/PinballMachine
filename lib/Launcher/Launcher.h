@@ -5,7 +5,7 @@ namespace Pinball::Launch
 namespace Constants
 {
     const unsigned long LAUNCH_TIME = 100;
-    const int LAUNCH_PERCENT_MAX = 255;
+    const int LAUNCH_PERCENT_MAX = 200;
     const int LAUNCH_PERCENT_MIN = 110;
     const int OFF_PERCENT = 0;
 
