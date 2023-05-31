@@ -5,11 +5,12 @@
 
 namespace Pinball::DigDB
 {
-DigitalDebounce::DigitalDebounce(int sensePin, int dbTime, bool pullUp)
+DigitalDebounce::DigitalDebounce(int sensePin, int dbTime, bool pullUp, bool activeLow)
 {
     this->sensePin = sensePin;
     this->dbTime = dbTime;
     this->pullUp = pullUp;
+    this->activeLow = activeLow;
 }
 
 void DigitalDebounce::init()
@@ -34,19 +35,19 @@ bool DigitalDebounce::update(unsigned long currTime) //TODO: after flag is set h
     {
         triggedFlag = true;
         trigTime = currTime;
-        Serial.println("sensor trig flag");
+        // Serial.println("sensor trig flag");
     }
     else if(getInputRaw() && triggedFlag && !waitForRelease && currTime > trigTime + dbTime) //check if debounce time has elapsed and sensor still trigged
     {
         waitForRelease = true;
         addScore(); //need to only add score ONCE
-        Serial.println("Debounced time reached");
+        // Serial.println("Debounced time reached");
         filtState = true;
         return true;
     }
     else if(getInputRaw() && triggedFlag && waitForRelease) //continue to return true while sensor is pressed
     {
-        Serial.println("Active");
+        // Serial.println("Active");
         filtState = true;
         return true;
     }
@@ -55,7 +56,7 @@ bool DigitalDebounce::update(unsigned long currTime) //TODO: after flag is set h
         //sensor is released
         triggedFlag = false;
         waitForRelease = false; //reset flags
-        Serial.println("Released");
+        // Serial.println("Released");
         filtState = false;
         return false;
     }
@@ -71,7 +72,7 @@ bool DigitalDebounce::getFiltState()
 
 bool DigitalDebounce::getInputRaw()
 {
-    if(pullUp)
+    if(activeLow)
     {
         return !digitalRead(sensePin); //active LOW
     }

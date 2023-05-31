@@ -21,6 +21,7 @@ class DigitalDebounce : public Pinball::ScoringElement
         bool triggedFlag;
         bool waitForRelease;
         bool pullUp;
+        bool activeLow;
 
         bool filtState;
         unsigned long trigTime;
@@ -28,7 +29,7 @@ class DigitalDebounce : public Pinball::ScoringElement
         bool getInputRaw();
 
     public:
-        DigitalDebounce(int sensePin, int dbTime, bool pullUp);
+        DigitalDebounce(int sensePin, int dbTime, bool pullUp, bool activeLow);
         void init();
         bool update(unsigned long currTime);
 
