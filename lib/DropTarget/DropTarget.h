@@ -10,7 +10,7 @@ namespace Constants
     const unsigned long RESET_TIME = 400;
     const unsigned long DROP_TIME = 5000;
     const int UP_POSITION = 115;
-    const int DOWN_POSITION = 5;
+    const int DOWN_POSITION = 25;
 }
 
 class DropTarget: public ScoringElement
