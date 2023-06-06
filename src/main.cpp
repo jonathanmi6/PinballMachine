@@ -50,32 +50,11 @@ bool checkRoundEnd;
 int roundNum;
 String idleText;
 
-int getScore()
-{
-	return (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
-	+ (slotCenter.getScore()) * Pinball::ScoreKeep::Constants::SLOT_CENTER_MULTIPLIER
-	+ (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER 
-	+ (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER 
-	+ (slingShotL.getScore() + slingShotR.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
-}
+int getScore();
+void interruptPopA();
+void interruptPopB();
+void interruptPopC();
 
-void interruptPopA()
-{
-	popBumperA.interruptFlag = true;
-	// Serial.println("interrupt A");
-}
-
-void interruptPopB()
-{
-	popBumperB.interruptFlag = true;
-	// Serial.println("interrupt B");
-}
-
-void interruptPopC()
-{
-	popBumperC.interruptFlag = true;
-	// Serial.println("interrupt C");
-}
 
 
 void setup()
@@ -118,9 +97,9 @@ void setup()
 	slingShotL.init();
 	slingShotR.init();
 
-	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_A_SENSE_PIN), interruptPopA, LOW);
-	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_B_SENSE_PIN), interruptPopB, LOW);
-	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_C_SENSE_PIN), interruptPopC, LOW);
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_A_SENSE_PIN), interruptPopA, FALLING);
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_B_SENSE_PIN), interruptPopB, FALLING);
+	attachInterrupt(digitalPinToInterrupt(Pinball::Constants::POP_BUMP_C_SENSE_PIN), interruptPopC, FALLING);
 
 	// roundRunning = true;   // manual override to skip waiting for launch
 	// checkRoundEnd = false; // set to false so that round lasts forever
@@ -292,4 +271,31 @@ void loop()
 		}
 		// Serial.println("Loop time: " + String(millis() - currTime));
 	}
+}
+
+int getScore()
+{
+	return (slotLeft.getScore() + slotRight.getScore()) * Pinball::ScoreKeep::Constants::SLOT_SIDE_MULTIPLIER
+	+ (slotCenter.getScore()) * Pinball::ScoreKeep::Constants::SLOT_CENTER_MULTIPLIER
+	+ (dropTargetA.getScore() + dropTargetB.getScore() + dropTargetC.getScore()) * Pinball::ScoreKeep::Constants::DROP_TGT_MULTIPLIER 
+	+ (popBumperA.getScore() + popBumperB.getScore() + popBumperC.getScore()) * Pinball::ScoreKeep::Constants::POP_BUMP_MULTIPLIER 
+	+ (slingShotL.getScore() + slingShotR.getScore()) * Pinball::ScoreKeep::Constants::SLINGSHOT_MULTIPLIER;
+}
+
+void interruptPopA()
+{
+	popBumperA.interruptFlag = true;
+	// Serial.println("interrupt A");
+}
+
+void interruptPopB()
+{
+	popBumperB.interruptFlag = true;
+	// Serial.println("interrupt B");
+}
+
+void interruptPopC()
+{
+	popBumperC.interruptFlag = true;
+	// Serial.println("interrupt C");
 }
