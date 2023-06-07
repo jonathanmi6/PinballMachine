@@ -170,8 +170,8 @@ void loop()
 		// reset scoring objects
 		rstSensor.reset();
 		// slotLeft.reset();
-		// slotCenter.reset();
-		// slotRight.reset();
+		slotCenter.reset();
+		slotRight.reset();
 
 		dropTargetA.reset();
 		dropTargetB.reset();
@@ -227,8 +227,8 @@ void loop()
 
 		rstSensor.update(currTime);
 		// slotLeft.update(currTime);
-		// slotCenter.update(currTime);
-		// slotRight.update(currTime);
+		slotCenter.update(currTime);
+		slotRight.update(currTime);
 
 		dropTargetA.update(currTime);
 		dropTargetB.update(currTime);

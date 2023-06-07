@@ -67,9 +67,9 @@ const int LAUNCH_BTN_PIN = 23;	 // DIO
 
 // Slots pins
 const int SLOT_L_PIN = 28;	// DIO
-const int SLOT_C_PIN = 30;	// DIO
-const int SLOT_R_PIN = 32;	// DIO
-const int SLOT_DBTIME = 10; // DIO
+const int SLOT_C_PIN = 26;	// DIO
+const int SLOT_R_PIN = 24;	// DIO
+const int SLOT_DBTIME = 5; // DIO
 
 // Horizontal Spinner pins
 const int HSPINNER_MOTOR_PIN = 44; // PWM
