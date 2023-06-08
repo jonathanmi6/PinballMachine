@@ -169,7 +169,7 @@ void loop()
 
 		// reset scoring objects
 		rstSensor.reset();
-		// slotLeft.reset();
+		slotLeft.reset();
 		slotCenter.reset();
 		slotRight.reset();
 
@@ -226,7 +226,7 @@ void loop()
 		hSpinner.run();
 
 		rstSensor.update(currTime);
-		// slotLeft.update(currTime);
+		slotLeft.update(currTime);
 		slotCenter.update(currTime);
 		slotRight.update(currTime);
 
