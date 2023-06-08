@@ -14,11 +14,11 @@ namespace Pinball::ScoreKeep {
 namespace Constants
 {
     const double DROP_TGT_MULTIPLIER = 500;
-    const double POP_BUMP_MULTIPLIER = 50;
-    const double SLINGSHOT_MULTIPLIER = 50;
+    const double POP_BUMP_MULTIPLIER = 100;
+    const double SLINGSHOT_MULTIPLIER = 100;
     const double VERT_SPINNER_MULTIPLIER = 0.5;
-    const double SLOT_SIDE_MULTIPLIER = 100;
-    const double SLOT_CENTER_MULTIPLIER = 300;
+    const double SLOT_SIDE_MULTIPLIER = 200;
+    const double SLOT_CENTER_MULTIPLIER = 400;
 
     const int DISPLAY_SCROLL_SPEED = 40; //time between frames (smaller is faster)
 }
